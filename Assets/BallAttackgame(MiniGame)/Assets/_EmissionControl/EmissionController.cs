@@ -10,17 +10,30 @@ public class EmissionController : MonoBehaviour
     float m_emission = -10f;
     float m_lastEmission;
 
+    bool emissionCoolTime = true;
+    float emissionTime;
+
+    GameObject unitychan;
+    BallController script;
     void Start()
     {
+        
+        unitychan = GameObject.Find("Player"); //Unityちゃんをオブジェクトの名前から取得して変数に格納する
+        script = unitychan.GetComponent<BallController>();
+
+        emissionTime = script.changeTime;
         m_mat = GetComponent<Renderer>().material;
         m_defaultColor = m_mat.GetColor("_EmissionColor");
     }
 
     void Update()
     {
+        emissionTime = script.changeTime;
         if (Input.GetKey(KeyCode.Space))
         {
-            m_emission = Mathf.Min(m_emission + m_gradient * Time.deltaTime, m_maxEmission);
+
+                m_emission = Mathf.Min(m_emission + m_gradient * Time.deltaTime, m_maxEmission);
+            
         }
         else
         {
@@ -34,4 +47,5 @@ public class EmissionController : MonoBehaviour
             m_lastEmission = m_emission;
         }
     }
+
 }

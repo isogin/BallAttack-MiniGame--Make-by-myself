@@ -26,7 +26,9 @@ public class BallController : MonoBehaviour
     /// </summary>
     protected string input_button_name;
 
-
+    //チャージアタックのクールタイムの実装
+    public bool spaceJudge = true;
+    public float changeTime = 1.3f;
     Material myMaterial;
     // Start is called before the first frame update
     void Start()
@@ -45,15 +47,20 @@ public class BallController : MonoBehaviour
         float z = Input.GetAxis("Vertical") * speed;
         rb.AddForce(x, 0, z);
 
+
         Vector3 forcefinal = forceMagnitude * force;
         // ボタンを離した際に一定値以上カウントが溜まっていればアクション実行
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && spaceJudge)
         {
 
             if (invoke_require_count <= current_count)
             {
                 current_count = 0;
+                ChargeAttackCoolTime();
                 rb.AddForce(forcefinal, ForceMode.Impulse);
+                rb.mass = 5;
+                Invoke("MassChange", changeTime);
+
             }
         }
         if (Input.GetKey(KeyCode.Space))
@@ -94,8 +101,21 @@ void Update()
             impactSound.PlayOneShot(impactSound.clip);
             rb.AddForce(0, 100, 0);
         }
-        
+       
+    }
+    void MassChange()
+    {
+        rb.mass = 2;
+    }
 
+    void ChargeAttackCoolTime()
+    {
+        spaceJudge = false;
+        Invoke("SpaceBool", 5.0f);
+    }
+    void SpaceBool()
+    {
+        spaceJudge = true;
     }
 }
 
