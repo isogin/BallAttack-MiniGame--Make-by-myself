@@ -49,8 +49,9 @@ public class BallController : MonoBehaviour
 
 
         Vector3 forcefinal = forceMagnitude * force;
+
         // ボタンを離した際に一定値以上カウントが溜まっていればアクション実行
-        if (Input.GetKey(KeyCode.Space) && spaceJudge)
+        if (Input.GetKey(KeyCode.D) && spaceJudge)
         {
 
             if (invoke_require_count <= current_count)
@@ -63,7 +64,7 @@ public class BallController : MonoBehaviour
 
             }
         }
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.D))
         {
             current_count++;
 
@@ -100,6 +101,7 @@ void Update()
         {
             impactSound.PlayOneShot(impactSound.clip);
             rb.AddForce(0, 100, 0);
+            GetComponent<ParticleSystem>().Play();
         }
        
     }

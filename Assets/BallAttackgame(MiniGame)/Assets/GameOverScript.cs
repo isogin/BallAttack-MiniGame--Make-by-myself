@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class GameOverScript : MonoBehaviour
 {
+    bool isEnd = false;
+    public GameObject stateText;
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
@@ -17,6 +19,16 @@ public class GameOverScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("GameOver");
+        if(other.gameObject.tag == "PlayerBall")
+        {
+            this.isEnd = true;
+           
+        }
+        if(other.gameObject.tag == "enemyBall")
+        {
+            this.isEnd = true;
+           
+        }
+      
     }
 }
