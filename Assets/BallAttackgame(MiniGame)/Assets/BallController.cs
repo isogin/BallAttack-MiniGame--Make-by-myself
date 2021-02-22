@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-   
+   //十字キーで玉を動かすための値
     public float speed = 30.0f;
+    float x;
+    float z;
     public Rigidbody rb;
 
     public float forceMagnitude = 10.0f;
@@ -43,9 +45,27 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float x = Input.GetAxis("Horizontal") * speed;
-        float z = Input.GetAxis("Vertical") * speed;
-        rb.AddForce(x, 0, z);
+        if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            x = -1 * speed;
+            rb.AddForce(x, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            x = 1 * speed;
+            rb.AddForce(x, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            z = 1 * speed;
+            rb.AddForce(0, 0, z);
+        }
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            z = -1 * speed;
+            rb.AddForce(0, 0, z);
+        }
+        
 
 
         Vector3 forcefinal = forceMagnitude * force;
