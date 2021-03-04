@@ -9,9 +9,13 @@ public class BallController : MonoBehaviour
     float x;
     float z;
     public Rigidbody rb;
+    bool airPosition;
 
-    public float forceMagnitude = 10.0f;
-    Vector3 force = new Vector3(10.0f, 0f, 0f);
+    public float forceMagnitude;
+    Vector3 forceD = new Vector3(10.0f, 0f, 0f);
+    Vector3 forceA = new Vector3(-10.0f, 0f, 0f);
+    Vector3 forceW = new Vector3(0, 0f, 10.0f);
+    Vector3 forceS = new Vector3(0f, 0f, -10.0f);
     /// チャージ攻撃発動に必要なカウント
     /// </summary>
     public  float invoke_require_count = 5;
@@ -21,12 +25,14 @@ public class BallController : MonoBehaviour
     /// <summary>
     /// 現在のチャージカウント
     /// </summary>
-    protected int current_count = 0;
+    public int current_count = 0;
+
 
     /// <summary>
     /// チャージ攻撃の溜めと発動を行うボタン
     /// </summary>
     protected string input_button_name;
+
 
     //チャージアタックのクールタイムの実装
     public bool spaceJudge = true;
@@ -45,37 +51,33 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Input.GetKey(KeyCode.LeftArrow))
+        if(Input.GetKey(KeyCode.LeftArrow) && airPosition)
         {
             x = -1 * speed;
             rb.AddForce(x, 0, 0);
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) && airPosition)
         {
             x = 1 * speed;
             rb.AddForce(x, 0, 0);
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) && airPosition)
         {
             z = 1 * speed;
             rb.AddForce(0, 0, z);
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) && airPosition)
         {
             z = -1 * speed;
             rb.AddForce(0, 0, z);
         }
-        
-
-
-        Vector3 forcefinal = forceMagnitude * force;
 
         // ボタンを離した際に一定値以上カウントが溜まっていればアクション実行
         if (Input.GetKey(KeyCode.D) && spaceJudge)
         {
-
             if (invoke_require_count <= current_count)
             {
+                Vector3 forcefinal = forceMagnitude * forceD;
                 current_count = 0;
                 ChargeAttackCoolTime();
                 rb.AddForce(forcefinal, ForceMode.Impulse);
@@ -84,16 +86,61 @@ public class BallController : MonoBehaviour
 
             }
         }
-        if (Input.GetKey(KeyCode.D))
+
+
+        if (Input.GetKey(KeyCode.A) && spaceJudge)
+        {
+            if (invoke_require_count <= current_count)
+            {
+                Vector3 forcefinal = forceMagnitude * forceA;
+                current_count = 0;
+                ChargeAttackCoolTime();
+                rb.AddForce(forcefinal, ForceMode.Impulse);
+                rb.mass = 5;
+                Invoke("MassChange", changeTime);
+
+            }
+        }
+
+        if (Input.GetKey(KeyCode.W) && spaceJudge)
+        {
+            if (invoke_require_count <= current_count)
+            {
+                Vector3 forcefinal = forceMagnitude * forceW;
+                current_count = 0;
+                ChargeAttackCoolTime();
+                rb.AddForce(forcefinal, ForceMode.Impulse);
+                rb.mass = 5;
+                Invoke("MassChange", changeTime);
+
+            }
+        }
+
+
+
+        if (Input.GetKey(KeyCode.S) && spaceJudge)
+        {
+            if (invoke_require_count <= current_count)
+            {
+                Vector3 forcefinal = forceMagnitude * forceS;
+                current_count = 0;
+                ChargeAttackCoolTime();
+                rb.AddForce(forcefinal, ForceMode.Impulse);
+                rb.mass = 5;
+                Invoke("MassChange", changeTime);
+
+            }
+        }
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W))
         {
             current_count++;
-
         }
         else
         {
             // ボタンを離した場合はリセット
             current_count = 0;
         }
+
     }
 
 /// <summary>
@@ -121,9 +168,17 @@ void Update()
         {
             impactSound.PlayOneShot(impactSound.clip);
             rb.AddForce(0, 100, 0);
-            GetComponent<ParticleSystem>().Play();
+            
+
         }
-       
+    }
+    private void OnCollisionStay(Collision collision)
+    {
+        airPosition = true;
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        airPosition = false;
     }
     void MassChange()
     {
@@ -135,9 +190,11 @@ void Update()
         spaceJudge = false;
         Invoke("SpaceBool", 5.0f);
     }
+
     void SpaceBool()
     {
         spaceJudge = true;
     }
+
 }
 

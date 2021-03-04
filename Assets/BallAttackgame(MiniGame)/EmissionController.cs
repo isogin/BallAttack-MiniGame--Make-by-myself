@@ -29,7 +29,7 @@ public class EmissionController : MonoBehaviour
     void Update()
     {
         emissionTime = script.changeTime;
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
         {
 
                 m_emission = Mathf.Min(m_emission + m_gradient * Time.deltaTime, m_maxEmission);
