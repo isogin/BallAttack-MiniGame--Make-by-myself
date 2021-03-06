@@ -5,7 +5,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
    //十字キーで玉を動かすための値
-    public float speed = 30.0f;
+    public float playerDefaultSpeed = 30.0f;
     float x;
     float z;
     public Rigidbody rb;
@@ -53,22 +53,22 @@ public class BallController : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.LeftArrow) && airPosition)
         {
-            x = -1 * speed;
+            x = -1 * playerDefaultSpeed;
             rb.AddForce(x, 0, 0);
         }
         if (Input.GetKey(KeyCode.RightArrow) && airPosition)
         {
-            x = 1 * speed;
+            x = 1 * playerDefaultSpeed;
             rb.AddForce(x, 0, 0);
         }
         if (Input.GetKey(KeyCode.UpArrow) && airPosition)
         {
-            z = 1 * speed;
+            z = 1 * playerDefaultSpeed;
             rb.AddForce(0, 0, z);
         }
         if (Input.GetKey(KeyCode.DownArrow) && airPosition)
         {
-            z = -1 * speed;
+            z = -1 * playerDefaultSpeed;
             rb.AddForce(0, 0, z);
         }
 

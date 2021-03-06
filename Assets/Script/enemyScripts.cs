@@ -6,12 +6,14 @@ public class enemyScripts : MonoBehaviour
 {
     public GameObject player;
     public float distanceBase = 5f;
+    public float awayDistanceBase = 3f;
     public bool touchGround;
     public bool awaynow = false;
     public float xPos;
     public float zPos;
     public Transform awayPos;
     public GameObject destination;
+    public bool destinationSet = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,18 +24,21 @@ public class enemyScripts : MonoBehaviour
     void Update()
     {
         float distance = distanceBase * Time.deltaTime;
+        float awayDistance = awayDistanceBase * Time.deltaTime;
 
         if(touchGround  == true && awaynow == false)
         {
             this.gameObject.transform.position = Vector3.MoveTowards(this.gameObject.transform.position, player.transform.position, distance);
-            Debug.Log("追いかけ中");
         }
-        if(awaynow == true)
+        if(awaynow == true  && touchGround == true)
         {
-            
-            destination.transform.position = new Vector3(xPos, 0.55f, zPos);
-                this.gameObject.transform.position = Vector3.MoveTowards(this.gameObject.transform.position, destination.transform.position, distance);
-            Debug.Log("逃げ中");
+            if (destinationSet == true)
+            { 
+                destination.transform.position = new Vector3(Random.Range(-5.0f, 5.0f), 0.55f, Random.Range(-4.0f, 4.0f));
+                destinationSet = false;
+            }
+                this.gameObject.transform.position = Vector3.MoveTowards(this.gameObject.transform.position, destination.transform.position, awayDistance);
+
             if(this.gameObject.transform.position == destination.transform.position)
             {
                 awaynow = false;
@@ -55,6 +60,7 @@ public class enemyScripts : MonoBehaviour
         if(collision.gameObject.tag == "PlayerBall")
         {
             awaynow = true;
+            destinationSet = true;
         }
     }
 }
