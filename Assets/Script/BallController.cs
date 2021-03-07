@@ -167,7 +167,7 @@ void Update()
         if (other.gameObject.tag == "enemyBall")
         {
             impactSound.PlayOneShot(impactSound.clip);
-            rb.AddForce(0, 100, 0);
+           
             
 
         }

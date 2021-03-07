@@ -16,6 +16,7 @@ public class Skill3 : MonoBehaviour
     public BallController ballControllerScript;
     public float defaultPower;
     public float changePower;
+    public ParticleSystem skill3Explosion;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,8 @@ public class Skill3 : MonoBehaviour
         startMass = rb.mass;
         startScale = this.gameObject.transform.localScale;
         defaultPower = ballControllerScript.playerDefaultSpeed;
+        skill3Explosion = GetComponentInChildren<ParticleSystem>();
+        
 
 
     }
@@ -43,6 +46,7 @@ public class Skill3 : MonoBehaviour
         ballControllerScript.playerDefaultSpeed = changePower;
         this.transform.localScale = changeScale;
         rb.mass = changeMass;
+        skill3Explosion.Play();
         yield return new WaitForSeconds(3);
         this.transform.localScale = startScale;
         rb.mass = startMass;
