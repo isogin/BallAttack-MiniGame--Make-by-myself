@@ -9,7 +9,7 @@ public class BallController : MonoBehaviour
     float x;
     float z;
     public Rigidbody rb;
-    bool airPosition;
+    public bool airPosition;
 
     public float forceMagnitude;
     Vector3 forceD = new Vector3(10.0f, 0f, 0f);

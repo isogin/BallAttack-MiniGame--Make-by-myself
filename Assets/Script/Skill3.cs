@@ -18,6 +18,9 @@ public class Skill3 : MonoBehaviour
     public float changePower;
     public ParticleSystem skill3Explosion;
     // Start is called before the first frame update
+
+    GameObject enemy;
+    enemyScripts enemyScript;
     void Start()
     {
         ballControllerScript = GetComponent<BallController>();
@@ -27,9 +30,10 @@ public class Skill3 : MonoBehaviour
         startScale = this.gameObject.transform.localScale;
         defaultPower = ballControllerScript.playerDefaultSpeed;
         skill3Explosion = GetComponentInChildren<ParticleSystem>();
-        
 
 
+        enemy = GameObject.Find("Enemy");
+        enemyScript = enemy.GetComponent<enemyScripts>();
     }
 
     // Update is called once per frame
@@ -47,6 +51,7 @@ public class Skill3 : MonoBehaviour
         this.transform.localScale = changeScale;
         rb.mass = changeMass;
         skill3Explosion.Play();
+        enemyScript.Skill3Discharge(player.transform.position);
         yield return new WaitForSeconds(3);
         this.transform.localScale = startScale;
         rb.mass = startMass;
