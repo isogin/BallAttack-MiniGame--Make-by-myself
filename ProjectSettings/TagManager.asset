@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
+  - PlayerBall
+  - Wall
+  - enemyBall
+  - EnemyDestinationArea
+  - EnemyAttackArea
   layers:
   - Default
   - TransparentFX
