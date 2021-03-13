@@ -5,7 +5,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
    //十字キーで玉を動かすための値
-    public float playerDefaultSpeed = 30.0f;
+    public float playerDefaultSpeed;
     float x;
     float z;
     public Rigidbody rb;

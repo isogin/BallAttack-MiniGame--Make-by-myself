@@ -5,7 +5,7 @@ using UnityEngine;
 public class enemyScripts : MonoBehaviour
 {
     public GameObject player;
-    public BallController playerScript;
+    public TpsPlayerMover playerScript;
     public bool touchGround;
     public bool awaynow = false;
     public GameObject destination;
@@ -25,16 +25,15 @@ public class enemyScripts : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
-        playerScript = player.GetComponent<BallController>();
+        playerScript = player.GetComponent<TpsPlayerMover>();
     }
 
     // Update is called once p frame
     void Update()
     {
 
-
         //enemyが地面にいて、攻撃状態のとき
-        if(touchGround  == true && awaynow == false)
+        if (touchGround  == true && awaynow == false)
         {
             //攻撃位置が指定されていない状態で、プレイヤーが地面についているとき
             if (setRunPosition == false && playerScript.airPosition)

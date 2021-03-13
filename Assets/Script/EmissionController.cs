@@ -14,12 +14,12 @@ public class EmissionController : MonoBehaviour
     float emissionTime;
 
     GameObject unitychan;
-    BallController script;
+    TpsPlayerMover script;
     void Start()
     {
         
         unitychan = GameObject.Find("Player"); //Unityちゃんをオブジェクトの名前から取得して変数に格納する
-        script = unitychan.GetComponent<BallController>();
+        script = unitychan.GetComponent<TpsPlayerMover>();
 
         emissionTime = script.changeTime;
         m_mat = GetComponent<Renderer>().material;

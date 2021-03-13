@@ -13,17 +13,18 @@ public class Skill3 : MonoBehaviour
     public GameObject player;
 
     //BallController scriptから値を取得する
-    public BallController ballControllerScript;
+    public TpsPlayerMover ballControllerScript;
     public float defaultPower;
     public float changePower;
     public ParticleSystem skill3Explosion;
-    // Start is called before the first frame update
-
     GameObject enemy;
     enemyScripts enemyScript;
+    // Start is called before the first frame update
+
+
     void Start()
     {
-        ballControllerScript = GetComponent<BallController>();
+        ballControllerScript = GetComponent<TpsPlayerMover>();
         player = GameObject.Find("Player");
         rb = GetComponent<Rigidbody>();
         startMass = rb.mass;
@@ -52,7 +53,7 @@ public class Skill3 : MonoBehaviour
         rb.mass = changeMass;
         skill3Explosion.Play();
         enemyScript.Skill3Discharge(player.transform.position);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(skill3Time);
         this.transform.localScale = startScale;
         rb.mass = startMass;
         ballControllerScript.playerDefaultSpeed = defaultPower;
