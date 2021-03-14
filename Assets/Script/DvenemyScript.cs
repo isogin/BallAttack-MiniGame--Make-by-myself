@@ -99,7 +99,6 @@ public class DvenemyScript : MonoBehaviour
             Destroy(enemyDestinationalAreaClone);
             awaynow = false;
             setRunPosition = false;
-            Debug.Log("にげるいちにとうちゃく");
 
         }
         if (other.gameObject.tag == "EnemyAttackArea")
@@ -108,7 +107,7 @@ public class DvenemyScript : MonoBehaviour
             Destroy(enemyAttackAreaClone);
             awaynow = true;
             destinationSet = true;
-            Debug.Log("攻撃するいちにとうちゃく");
+
         }
     }
     public void Skill3Discharge(Vector3 explosionPOs)
