@@ -60,7 +60,7 @@ public class enemyScripts : MonoBehaviour
                 if (destinationSet == true)
                 {
                 
-                destination.transform.position = new Vector3(Random.Range(-3.0f, 3.0f), 0.55f, Random.Range(-3.0f, 3.0f));
+                destination.transform.position = new Vector3(Random.Range(-2.0f, 2.0f), 0.55f, Random.Range(-2.0f, 2.0f));
                 enemyDestinationalAreaClone = Instantiate(enemyDestinationalArea, destination.transform.position, this.gameObject.transform.rotation) as GameObject;
                 destinationSet = false;
                 
