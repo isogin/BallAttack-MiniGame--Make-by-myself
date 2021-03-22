@@ -21,7 +21,7 @@ public class EmissionController : MonoBehaviour
         unitychan = GameObject.Find("Player"); //Unityちゃんをオブジェクトの名前から取得して変数に格納する
         script = unitychan.GetComponent<TpsPlayerMover>();
 
-        emissionTime = script.changeTime;
+
         m_mat = GetComponent<Renderer>().material;
         m_defaultColor = m_mat.GetColor("_EmissionColor");
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DvenemyScript : MonoBehaviour
+public class StrongEnemyScript : MonoBehaviour
 {
     public GameObject player;
     public BallController playerScript;
@@ -18,10 +18,10 @@ public class DvenemyScript : MonoBehaviour
     public float enemySpeed;
 
     public GameObject enemyDestinationalArea;
-    public GameObject enemyDestinationalAreaClone;
-    public GameObject enemyAttackArea;
-    public GameObject enemyAttackAreaClone;
+    GameObject enemyDestinationalAreaClone;
 
+
+    Vector3 SEnemyAttack;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,14 +39,13 @@ public class DvenemyScript : MonoBehaviour
             //攻撃位置が指定されていない状態で、プレイヤーが地面についているとき
             if (setRunPosition == false && playerScript.airPosition)
             {
-                SetRunPosition();
+                SEnemyAttack = (player.transform.position - this.gameObject.transform.position).normalized;
+
+                rb.AddForce(SEnemyAttack * enemySpeed);
 
             }
-            //プレイヤーの位置へ力を加える
-            Vector3 enemyAttack = playerSetPosition - this.gameObject.transform.position;
-            Vector3 unityEnemyAttack = enemyAttack.normalized;
-            //enemyを攻撃位置に移動させる
-            rb.AddForce(unityEnemyAttack * enemySpeed);
+            //エネミーからプレイヤーへの方向を取得
+
 
             //enemyが攻撃位置に着いたとき
             if (this.gameObject.transform.position.x == playerSetPosition.x && this.gameObject.transform.position.z == playerSetPosition.z)
@@ -62,7 +61,7 @@ public class DvenemyScript : MonoBehaviour
             if (destinationSet == true)
             {
 
-                destination.transform.position = new Vector3(Random.Range(-3.0f, 3.0f), 0.55f, Random.Range(-3.0f, 3.0f));
+                destination.transform.position = new Vector3(Random.Range(-2.0f, 2.0f), this.gameObject.transform.position.y, Random.Range(-2.0f, 2.0f));
                 enemyDestinationalAreaClone = Instantiate(enemyDestinationalArea, destination.transform.position, this.gameObject.transform.rotation) as GameObject;
                 destinationSet = false;
 
@@ -87,9 +86,15 @@ public class DvenemyScript : MonoBehaviour
     {
         touchGround = true;
     }
-    private void OnCollisionExit(Collision collision)
+    private void OnCollisionEmter(Collision collision)
     {
         touchGround = false;
+        if (collision.gameObject.tag == "enemyBall")
+        {
+            setRunPosition = true;
+            awaynow = true;
+            destinationSet = true;
+        }
     }
     private void OnTriggerStay(Collider other)
     {
@@ -101,26 +106,16 @@ public class DvenemyScript : MonoBehaviour
             setRunPosition = false;
 
         }
-        if (other.gameObject.tag == "EnemyAttackArea")
 
-        {
-            Destroy(enemyAttackAreaClone);
-            awaynow = true;
-            destinationSet = true;
-
-        }
     }
     public void Skill3Discharge(Vector3 explosionPOs)
     {
         rb.AddExplosionForce(explosionPower, explosionPOs, radius, 3.0F);
     }
 
-    public void SetRunPosition()
+    public void Skill1Discharge(Vector3 explosionPOs)
     {
-        playerSetPosition = player.transform.position;
-        //攻撃位置指定完了！！
-        setRunPosition = true;
-        enemyAttackAreaClone = Instantiate(enemyAttackArea, player.transform.position, this.gameObject.transform.rotation) as GameObject;
+        rb.AddExplosionForce(explosionPower * 0.6f, explosionPOs, radius, 2.0F);
     }
-
 }
+

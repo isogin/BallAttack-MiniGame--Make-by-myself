@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemyScripts : MonoBehaviour
+public class enemyOldsystem : MonoBehaviour
 {
     public GameObject player;
-    public TpsPlayerMover playerScript;
+    public BallController playerScript;
     public bool touchGround;
     public bool awaynow = false;
     public GameObject destination;
@@ -18,14 +18,15 @@ public class enemyScripts : MonoBehaviour
     public float enemySpeed;
 
     public GameObject enemyDestinationalArea;
-    public GameObject enemyDestinationalAreaClone;
+    GameObject enemyDestinationalAreaClone;
     public GameObject enemyAttackArea;
-    public GameObject enemyAttackAreaClone;
+    GameObject enemyAttackAreaClone;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
-        playerScript = player.GetComponent<TpsPlayerMover>();
+        playerScript = player.GetComponent<BallController>();
     }
 
     // Update is called once p frame
@@ -33,18 +34,19 @@ public class enemyScripts : MonoBehaviour
     {
 
         //enemyが地面にいて、攻撃状態のとき
-        if (touchGround  == true && awaynow == false)
+        if (touchGround == true && awaynow == false)
         {
             //攻撃位置が指定されていない状態で、プレイヤーが地面についているとき
             if (setRunPosition == false && playerScript.airPosition)
             {
                 SetRunPosition();
-                
+
             }
             //プレイヤーの位置へ力を加える
             Vector3 enemyAttack = playerSetPosition - this.gameObject.transform.position;
+            Vector3 unityEnemyAttack = enemyAttack.normalized;
             //enemyを攻撃位置に移動させる
-            rb.AddForce(enemyAttack * enemySpeed);
+            rb.AddForce(unityEnemyAttack * enemySpeed);
 
             //enemyが攻撃位置に着いたとき
             if (this.gameObject.transform.position.x == playerSetPosition.x && this.gameObject.transform.position.z == playerSetPosition.z)
@@ -54,31 +56,33 @@ public class enemyScripts : MonoBehaviour
                 destinationSet = true;
             }
         }
-            //enemyが地面にいて、逃げる状態であるとき
-            if (awaynow == true && touchGround == true)
+        //enemyが地面にいて、逃げる状態であるとき
+        if (awaynow == true && touchGround == true)
+        {
+            if (destinationSet == true)
             {
-                if (destinationSet == true)
-                {
-                
-                destination.transform.position = new Vector3(Random.Range(-2.0f, 2.0f), 0.55f, Random.Range(-2.0f, 2.0f));
+
+                destination.transform.position = new Vector3(Random.Range(-2.0f, 2.0f), this.gameObject.transform.position.y, Random.Range(-2.0f, 2.0f));
                 enemyDestinationalAreaClone = Instantiate(enemyDestinationalArea, destination.transform.position, this.gameObject.transform.rotation) as GameObject;
                 destinationSet = false;
-                
-                }
-                //逃げる位置へ力を加える
-            Vector3 RunAwayPosition = destination.transform.position - this.gameObject.transform.position;
-            rb.AddForce(RunAwayPosition * enemySpeed);
-
-                //enemyが逃げる位置に着いたとき
-                if (this.gameObject.transform.position.x == destination.transform.position.x && this.gameObject.transform.position.z == destination.transform.position.z)
-                {
-                    awaynow = false;
-                    setRunPosition = false;
-
-                }
 
             }
-        
+            //逃げる位置へ力を加える
+            Vector3 runAwayPosition = destination.transform.position - this.gameObject.transform.position;
+            Vector3 centerForce = new Vector3(0, 0, 0) - this.gameObject.transform.position;
+            Vector3 fusionVector = (runAwayPosition + centerForce) / 2;
+            rb.AddForce(fusionVector * enemySpeed * 0.3f);
+
+            //enemyが逃げる位置に着いたとき
+            if (this.gameObject.transform.position.x == destination.transform.position.x && this.gameObject.transform.position.z == destination.transform.position.z)
+            {
+                awaynow = false;
+                setRunPosition = false;
+
+            }
+
+        }
+
     }
     private void OnCollisionStay(Collision collision)
     {
@@ -96,7 +100,6 @@ public class enemyScripts : MonoBehaviour
             Destroy(enemyDestinationalAreaClone);
             awaynow = false;
             setRunPosition = false;
-            Debug.Log("にげるいちにとうちゃく");
 
         }
         if (other.gameObject.tag == "EnemyAttackArea")
@@ -105,12 +108,17 @@ public class enemyScripts : MonoBehaviour
             Destroy(enemyAttackAreaClone);
             awaynow = true;
             destinationSet = true;
-            Debug.Log("攻撃するいちにとうちゃく");
+
         }
     }
     public void Skill3Discharge(Vector3 explosionPOs)
     {
         rb.AddExplosionForce(explosionPower, explosionPOs, radius, 3.0F);
+    }
+
+    public void Skill1Discharge(Vector3 explosionPOs)
+    {
+        rb.AddExplosionForce(explosionPower * 0.6f, explosionPOs, radius, 2.0F);
     }
 
     public void SetRunPosition()
@@ -120,6 +128,4 @@ public class enemyScripts : MonoBehaviour
         setRunPosition = true;
         enemyAttackAreaClone = Instantiate(enemyAttackArea, player.transform.position, this.gameObject.transform.rotation) as GameObject;
     }
-       
 }
-
