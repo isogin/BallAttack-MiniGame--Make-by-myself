@@ -7,7 +7,12 @@ public class Skill4 : MonoBehaviour
     Vector3 homingPos;
     public GameObject homingBullet;
 
+    public float bulletRemain;
 
+    private void Start()
+    {
+
+    }
     private void Update()
     {
         homingPos = new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y + 2, this.gameObject.transform.position.z);
@@ -19,7 +24,7 @@ public class Skill4 : MonoBehaviour
     }
     IEnumerator TimeCoroutine(float time)
     {
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < bulletRemain; i++)
         {
             Instantiate(homingBullet, homingPos, Quaternion.identity);
             yield return new WaitForSeconds(time);
@@ -27,4 +32,5 @@ public class Skill4 : MonoBehaviour
         }
         yield return null;
     }
+
 }

@@ -6,7 +6,7 @@ public class Skill1 : MonoBehaviour
 {
     public GameObject player;
     public GameObject bullet;
-    public float bulletSpeed = 8.0f;
+    public float bulletSpeed;
 
     // Use this for initialization
     void Start()

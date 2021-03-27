@@ -17,10 +17,13 @@ public class enemyScripts : MonoBehaviour
     public Vector3 playerSetPosition;
     public float enemySpeed;
 
+    //敵が移動する位置
     public GameObject enemyDestinationalArea;
     public GameObject enemyDestinationalAreaClone;
     public GameObject enemyAttackArea;
     public GameObject enemyAttackAreaClone;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +47,7 @@ public class enemyScripts : MonoBehaviour
             //プレイヤーの位置へ力を加える
             Vector3 enemyAttack = playerSetPosition - this.gameObject.transform.position;
             //enemyを攻撃位置に移動させる
-            rb.AddForce(enemyAttack * enemySpeed);
+            rb.AddForce((enemyAttack - rb.velocity) * enemySpeed);
 
             //enemyが攻撃位置に着いたとき
             if (this.gameObject.transform.position.x == playerSetPosition.x && this.gameObject.transform.position.z == playerSetPosition.z)
@@ -67,7 +70,7 @@ public class enemyScripts : MonoBehaviour
                 }
                 //逃げる位置へ力を加える
             Vector3 RunAwayPosition = destination.transform.position - this.gameObject.transform.position;
-            rb.AddForce(RunAwayPosition * enemySpeed);
+            rb.AddForce((RunAwayPosition - rb.velocity) * enemySpeed);
 
                 //enemyが逃げる位置に着いたとき
                 if (this.gameObject.transform.position.x == destination.transform.position.x && this.gameObject.transform.position.z == destination.transform.position.z)

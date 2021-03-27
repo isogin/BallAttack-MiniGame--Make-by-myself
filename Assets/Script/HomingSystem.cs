@@ -17,12 +17,14 @@ public class HomingSystem : MonoBehaviour
     // 着弾時間
     float period = 2f;
 
+    public GameObject particleObject;
     GameObject enemy;
+    public DvenemyScript enemyScript;
 
     void Start()
     {
         enemy = GameObject.Find("Enemy");
-        
+        enemyScript = enemy.GetComponent<DvenemyScript>();
         // 初期位置をposionに格納
         position = transform.position;
         // rigidbody取得
@@ -67,12 +69,15 @@ public class HomingSystem : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.tag == "enemyBall")
+        if(other.gameObject.tag == "enemyBall" || other.gameObject.tag == "Stage")
         {
-            //エフェクトを発動させたい
+            enemyScript.Skill4Discharge(this.gameObject.transform.position);
+            //パーティクルの発生
+            Instantiate(particleObject, this.transform.position, Quaternion.identity);
+
+            // 何かに当たったら自分自身を削除
+            Destroy(this.gameObject);
         }
-        // 何かに当たったら自分自身を削除
-        Destroy(this.gameObject);
 
     }
 

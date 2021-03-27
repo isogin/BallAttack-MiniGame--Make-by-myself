@@ -16,6 +16,8 @@ public class Skill3DownView : MonoBehaviour
     public BallController ballControllerScript;
     public float defaultPower;
     public float changePower;
+
+    public GameObject skill3Object;
     public ParticleSystem skill3Explosion;
     public GameObject enemy;
     public DvenemyScript enemyScript;
@@ -30,7 +32,7 @@ public class Skill3DownView : MonoBehaviour
         startMass = rb.mass;
         startScale = this.gameObject.transform.localScale;
         defaultPower = ballControllerScript.playerDefaultSpeed;
-        skill3Explosion = GetComponentInChildren<ParticleSystem>();
+        skill3Explosion = skill3Object.GetComponent<ParticleSystem>();
 
 
         enemy = GameObject.Find("Enemy");

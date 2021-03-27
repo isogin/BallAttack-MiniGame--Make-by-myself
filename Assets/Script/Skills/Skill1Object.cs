@@ -13,6 +13,7 @@ public class Skill1Object : MonoBehaviour
     private float nextTime;
     public float interval = 1.0f;
     Renderer renderer;
+    public float bulletSpeed;
     void Start()
     {
         enemy = GameObject.Find("Enemy");
@@ -28,7 +29,7 @@ public class Skill1Object : MonoBehaviour
         // transformを取得
         Transform myTransform = this.transform;
         // 現在の座標からのxyz を1ずつ加算して移動
-        myTransform.Translate(0, 0.005f, 0);
+        myTransform.Translate(0, bulletSpeed * 0.001f, 0);
     }
     private void OnTriggerEnter(Collider other)
     {
