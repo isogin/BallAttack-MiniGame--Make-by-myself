@@ -19,9 +19,9 @@ public class Skill1 : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 8; i++)
             {
-                transform.rotation = Quaternion.Euler(0f, i * 60f, 90f);
+                transform.rotation = Quaternion.Euler(0f, i * 45f, 90f);
                 Vector3 tmp = GameObject.Find("Player").transform.position;
                 tmp = new Vector3(tmp.x + 0.7f, tmp.y, tmp.z);
 

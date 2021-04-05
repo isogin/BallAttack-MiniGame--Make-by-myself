@@ -20,7 +20,7 @@ public class EmissionControllerDownView : MonoBehaviour
     void Start()
     {
 
-        unitychan = GameObject.Find("Player"); //Unityちゃんをオブジェクトの名前から取得して変数に格納する
+        unitychan = GameObject.Find("Player"); 
         script = unitychan.GetComponent<BallController>();
 
         emissionTime = script.changeTime;

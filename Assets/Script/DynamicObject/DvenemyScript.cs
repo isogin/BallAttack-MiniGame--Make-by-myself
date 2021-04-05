@@ -23,23 +23,34 @@ public class DvenemyScript : MonoBehaviour
     public GameObject enemyAttackArea;
     GameObject enemyAttackAreaClone;
 
-
-    private float attackAreaMagnitude;
     //速度制限
     public float LimitSpeed;
     private float timeElapsed;
     // 追尾性能
     public float traceUpdateTime;
+    //衝突の大きさ
+    float collisionImpact;
+
+    float halfSpeed;
+    float firstSpeed;
+
     void Start()
     {
         player = GameObject.Find("Player");
         playerScript = player.GetComponent<BallController>();
+
+        firstSpeed = enemySpeed;
+        halfSpeed = enemySpeed * 0.5f;
     }
 
     // Update is called once p frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        if(collisionImpact > playerScript.collisionImpactLimit)
+        {
+            enemySpeed = halfSpeed;
+            Invoke("NormalSpeed", playerScript.halfPowerTime);
+        }
         //enemyが地面にいて、攻撃状態のとき
         if (touchGround == true && awaynow == false)
         {
@@ -101,6 +112,15 @@ public class DvenemyScript : MonoBehaviour
         }
 
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "PlayerBall")
+        {
+            collisionImpact = collision.impulse.magnitude;
+
+        }
+    }
     private void OnCollisionStay(Collision collision)
     {
         touchGround = true;
@@ -150,5 +170,10 @@ public class DvenemyScript : MonoBehaviour
         setRunPosition = true;
         enemyAttackAreaClone = Instantiate(enemyAttackArea, player.transform.position, this.gameObject.transform.rotation) as GameObject;
         
+    }
+
+    void NormalSpeed()
+    {
+        enemySpeed = firstSpeed;
     }
 }

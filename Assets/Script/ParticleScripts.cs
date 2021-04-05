@@ -5,10 +5,12 @@ using UnityEngine;
 public class ParticleScripts : MonoBehaviour
 {
     public GameObject impactEffect;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
+
     }
 
     // Update is called once per frame
@@ -20,6 +22,7 @@ public class ParticleScripts : MonoBehaviour
     {
         if (collision.gameObject.tag == "enemyBall")
         {
+            //衝突エフェクトのパーティクルを発生
             Instantiate(impactEffect, transform.position, transform.rotation);
         }
     }

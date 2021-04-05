@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    GameObject enemy;
+
    //十字キーで玉を動かすための値
     public float playerDefaultSpeed;
     float x;
@@ -19,7 +21,6 @@ public class BallController : MonoBehaviour
     /// チャージ攻撃発動に必要なカウント
     /// </summary>
     public  float invoke_require_count = 5;
-    
     //衝突音の作成
     public AudioSource impactSound;
     /// <summary>
@@ -27,30 +28,38 @@ public class BallController : MonoBehaviour
     /// </summary>
     public int current_count = 0;
 
+    public float collisionImpact;
+    public float collisionImpactLimit;
+    public float halfPowerTime;
 
-    /// <summary>
-    /// チャージ攻撃の溜めと発動を行うボタン
-    /// </summary>
-    protected string input_button_name;
-
-
+    float halfSpeed;
+    float firstSpeed;
     //チャージアタックのクールタイムの実装
     public bool spaceJudge = true;
     public float changeTime = 1.3f;
     Material myMaterial;
+
+    bool halfPowerDone = false;
     // Start is called before the first frame update
     void Start()
     {
+        enemy = GameObject.Find("Enemy");
         rb = GetComponent<Rigidbody>();
      
     impactSound = GetComponent<AudioSource>();
 
         myMaterial = GetComponent<Renderer>().material;
+
+        halfSpeed = playerDefaultSpeed * 0.5f;
+        firstSpeed = playerDefaultSpeed;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        
+
+
         if(Input.GetKey(KeyCode.LeftArrow) && airPosition)
         {
             x = -1 * playerDefaultSpeed;
@@ -167,8 +176,19 @@ void Update()
         if (other.gameObject.tag == "enemyBall")
         {
             impactSound.PlayOneShot(impactSound.clip);
-           
-            
+
+            collisionImpact = other.impulse.magnitude;
+            Debug.Log(collisionImpact);
+            if (collisionImpact > collisionImpactLimit)
+            {
+                halfPowerDone = true;
+            }
+            if (halfPowerDone)
+            {
+                playerDefaultSpeed = playerDefaultSpeed * 0.5f;
+                Invoke("HalfPowerFinish", halfPowerTime);
+                halfPowerDone = false;
+            }
 
         }
     }
@@ -196,5 +216,9 @@ void Update()
         spaceJudge = true;
     }
 
+    void HalfPowerFinish()
+    {
+        playerDefaultSpeed = playerDefaultSpeed * 2;
+    }
 }
 

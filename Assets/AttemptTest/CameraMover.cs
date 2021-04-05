@@ -5,16 +5,34 @@ using UnityEngine;
 
 public class CameraMover : MonoBehaviour
 {
+    GameObject player;
+    public float rotateSpeed = 3.0f;
 
-    public  GameObject player;   //プレイヤー情報格納用
-    public GameObject enemy;
-    private Vector3 offset;      //相対距離取得用
-
-    void Update()
+    private void Start()
     {
-        transform.LookAt(enemy.transform, Vector3.up);
-        this.transform.position = player.transform.position;
-
+        player = GameObject.Find("Player");
+    }
+    private void Update()
+    {
+        this.gameObject.transform.position = player.transform.position;
+        Vector3 playerPos = player.transform.position;
+        
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.RotateAround(playerPos, new Vector3(0, 1, 0), rotateSpeed);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.RotateAround(playerPos, new Vector3(0, 1, 0), -rotateSpeed);
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.Rotate(new Vector3(-rotateSpeed * 0.1f , 0, 0));
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.Rotate(new Vector3(rotateSpeed * 0.1f, 0, 0));
+        }
     }
 
 }

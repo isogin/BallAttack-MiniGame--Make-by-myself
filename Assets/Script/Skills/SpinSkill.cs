@@ -14,8 +14,8 @@ public class SpinSkill : MonoBehaviour
     public float defaultMass;
 
     bool spinExplosion = false;
-    public float zPower;
-    public float yPower;
+    public float zSpinPower;
+    public float ySipnPower;
     public GameObject spinSkillObject;
     public ParticleSystem spinSkill;
 
@@ -24,6 +24,8 @@ public class SpinSkill : MonoBehaviour
     Vector3 down;
     Vector3 up;
 
+
+    IEnumerator routine;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,18 +42,20 @@ public class SpinSkill : MonoBehaviour
         up = new Vector3(0,upPower,movePower);
         down = new Vector3(0,upPower,-movePower);
 
-
+        routine = Coroutine();
+        StartCoroutine(routine);
     }
 
-        void Update()
+    void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
             rb.velocity = Vector3.zero;
             rb.AddForce(right, ForceMode.Impulse);
             spinSkill.Play();
-            rb.AddTorque(new Vector3(0, 0, -zPower) * Mathf.PI, ForceMode.VelocityChange);
-            StartCoroutine("massChange");
+            rb.AddTorque(new Vector3(0, 0, -zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
+
+
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -59,9 +63,9 @@ public class SpinSkill : MonoBehaviour
             rb.velocity = Vector3.zero;
             rb.AddForce(left, ForceMode.Impulse);
             spinSkill.Play();
-            rb.AddTorque(new Vector3(0, 0, zPower) * Mathf.PI, ForceMode.VelocityChange);
+            rb.AddTorque(new Vector3(0, 0, zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
 
-            StartCoroutine("massChange");
+
         }
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -70,8 +74,8 @@ public class SpinSkill : MonoBehaviour
             rb.velocity = Vector3.zero;
             rb.AddForce(up, ForceMode.Impulse);
             spinSkill.Play();
-            rb.AddTorque(new Vector3(yPower, 0, 0) * Mathf.PI, ForceMode.VelocityChange);
-            StartCoroutine("massChange");
+            rb.AddTorque(new Vector3(ySipnPower, 0, 0) * Mathf.PI, ForceMode.VelocityChange);
+
         }
 
 
@@ -81,18 +85,17 @@ public class SpinSkill : MonoBehaviour
             rb.velocity = Vector3.zero;
             rb.AddForce(down, ForceMode.Impulse);
             spinSkill.Play();
-            rb.AddTorque(new Vector3(-yPower, 0 , 0) * Mathf.PI, ForceMode.VelocityChange);
-            StartCoroutine("massChange");
+            rb.AddTorque(new Vector3(-ySipnPower, 0 , 0) * Mathf.PI, ForceMode.VelocityChange);
+
+
         }
 
     }
 
-    IEnumerator massChange()
+    IEnumerator Coroutine()
     {
         rb.mass = changeMass;
-        spinExplosion = true;
         yield return new WaitForSeconds(0.7f);
         rb.mass = defaultMass;
-        spinExplosion = false;
     }
 }
