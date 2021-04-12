@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class GameOverScript : MonoBehaviour
+public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
 {
     public float restartTime;
 
@@ -10,8 +10,7 @@ public class GameOverScript : MonoBehaviour
      GameObject resultText;
      GameObject playerText;
      GameObject enemyText;
-    public float playerPoint;
-    public float enemyPoint;
+
 
      GameObject player;
      GameObject enemy;
@@ -34,21 +33,28 @@ public class GameOverScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(playerPoint == 1)
+        if(StatusModelSinglton.Instance.playerWin == 1)
         {
             this.playerText.GetComponent<Text>().text = "〇";
         }
-        if (enemyPoint == 1)
+        if (StatusModelSinglton.Instance.enemyWin == 1)
         {
             this.enemyText.GetComponent<Text>().text = "〇";
         }
-        if(playerPoint == 2)
+        if(StatusModelSinglton.Instance.playerWin == 2)
         {
-            resultText.GetComponent<Text>().text = "Game Clear!!";
+            //プレイヤーの勝利  点数をリセットする
+            StatusModelSinglton.Instance.GamePointReset();
+
+            //シーンを切り替える
+            StatusModelSinglton.Instance.NextScene();
         }
-        if(enemyPoint == 2)
+        if(StatusModelSinglton.Instance.enemyWin == 2)
         {
-            resultText.GetComponent<Text>().text = "Game Over!!";
+            //エネミーの勝利 点数をリセットする
+            StatusModelSinglton.Instance.GamePointReset();
+            //シーンを切り替える
+            StatusModelSinglton.Instance.NextScene();
         }
 
     }
@@ -56,29 +62,33 @@ public class GameOverScript : MonoBehaviour
     {
         if(other.gameObject.tag == "PlayerBall")
         {
-            enemyPoint++;
+            StatusModelSinglton.Instance.OnEnemyRoundWin();
             this.isEnd = true;
-
+            Debug.Log($"roundFinish ,playerPoint{StatusModelSinglton.Instance.playerWin}");
+            Debug.Log($"roundFinish ,enemyPoint{StatusModelSinglton.Instance.enemyWin}");
             StartCoroutine("Restart");
 
 
         }
         if(other.gameObject.tag == "enemyBall")
         {
-            playerPoint++;
+            StatusModelSinglton.Instance.OnPlayerRoundWin();
             this.isEnd = true;
-
+            Debug.Log($"roundFinish ,enemyPoint{StatusModelSinglton.Instance.enemyWin}");
+            Debug.Log($"roundFinish ,playerPoint{StatusModelSinglton.Instance.playerWin}");
             StartCoroutine("Restart");
         }
       
     }
     IEnumerator Restart()
     {
-        Destroy(enemy);
-        Destroy(player);
+        enemy.transform.position = new Vector3(100, 100, 100);
+        player.transform.position = new Vector3(105, 105, 105);
+
 
         yield return new WaitForSeconds(restartTime);
 
-        Application.LoadLevel("Stage 4");
+        player.transform.position = new Vector3(0, 3, 0);
+        enemy.transform.position = new Vector3(1, 3, 1);
     }
 }

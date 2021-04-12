@@ -27,8 +27,8 @@ public class TpsPlayerMover : MonoBehaviour
     /// </summary>
     public int current_count = 0;
 
-
-    /// <summary>
+    public float limitSpeed;
+    
     /// チャージ攻撃の溜めと発動を行うボタン
     /// </summary>
     protected string input_button_name;
@@ -37,7 +37,7 @@ public class TpsPlayerMover : MonoBehaviour
     float inputHorizontal;
     float inputVertical;
 
-
+    public float jumpPower;
     //チャージアタックのクールタイムの実装
     public bool spaceJudge = true;
     public float changeTime = 1.3f;
@@ -59,7 +59,14 @@ public class TpsPlayerMover : MonoBehaviour
         Vector3 camToPlayer = this.gameObject.transform.position - Camera.main.transform.position;
         Vector3 moveRightLeft = camToPlayer  + Camera.main.transform.right * x;
         Vector3 moveUpDown = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized * z;
-        Debug.Log(camToPlayer);
+
+        if (rb.velocity.magnitude < limitSpeed)
+        {
+            moveRightLeft = moveRightLeft * 0.1f;
+            moveUpDown = moveUpDown * 0.1f;
+
+
+        }
         if (Input.GetKey(KeyCode.LeftArrow) && airPosition)
         {
             x = -1 * playerDefaultSpeed;
@@ -81,6 +88,11 @@ public class TpsPlayerMover : MonoBehaviour
             rb.AddForce(moveUpDown);
         }
         
+
+        if(Input.GetKey(KeyCode.Space) && airPosition)
+        {
+            rb.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
+        }
         // ボタンを離した際に一定値以上カウントが溜まっていればアクション実行
         if (Input.GetKey(KeyCode.D) && spaceJudge)
         {

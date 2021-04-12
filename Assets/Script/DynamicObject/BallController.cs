@@ -178,7 +178,7 @@ void Update()
             impactSound.PlayOneShot(impactSound.clip);
 
             collisionImpact = other.impulse.magnitude;
-            Debug.Log(collisionImpact);
+
             if (collisionImpact > collisionImpactLimit)
             {
                 halfPowerDone = true;
