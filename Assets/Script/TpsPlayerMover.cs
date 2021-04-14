@@ -60,32 +60,26 @@ public class TpsPlayerMover : MonoBehaviour
         Vector3 moveRightLeft = camToPlayer  + Camera.main.transform.right * x;
         Vector3 moveUpDown = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized * z;
 
-        if (rb.velocity.magnitude < limitSpeed)
-        {
-            moveRightLeft = moveRightLeft * 0.1f;
-            moveUpDown = moveUpDown * 0.1f;
 
-
-        }
         if (Input.GetKey(KeyCode.LeftArrow) && airPosition)
         {
             x = -1 * playerDefaultSpeed;
-            rb.AddForce(moveRightLeft);
+            rb.AddForce(moveRightLeft / (rb.velocity.magnitude + 1) * 10);
         }
         if (Input.GetKey(KeyCode.RightArrow) && airPosition)
         {
             x = 1 * playerDefaultSpeed;
-            rb.AddForce(moveRightLeft);
+            rb.AddForce(moveRightLeft / (rb.velocity.magnitude + 1) * 10);
         }
         if (Input.GetKey(KeyCode.UpArrow) && airPosition)
         {
             z = 1 * playerDefaultSpeed;
-            rb.AddForce(moveUpDown);
+            rb.AddForce(moveUpDown / (rb.velocity.magnitude + 1) * 10);
         }
         if (Input.GetKey(KeyCode.DownArrow) && airPosition)
         {
             z = -1 * playerDefaultSpeed;
-            rb.AddForce(moveUpDown);
+            rb.AddForce(moveUpDown / (rb.velocity.magnitude + 1) * 10);
         }
         
 

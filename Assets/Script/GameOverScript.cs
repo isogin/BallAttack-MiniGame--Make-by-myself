@@ -33,29 +33,7 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
     // Update is called once per frame
     void Update()
     {
-        if(StatusModelSinglton.Instance.playerWin == 1)
-        {
-            this.playerText.GetComponent<Text>().text = "〇";
-        }
-        if (StatusModelSinglton.Instance.enemyWin == 1)
-        {
-            this.enemyText.GetComponent<Text>().text = "〇";
-        }
-        if(StatusModelSinglton.Instance.playerWin == 2)
-        {
-            //プレイヤーの勝利  点数をリセットする
-            StatusModelSinglton.Instance.GamePointReset();
 
-            //シーンを切り替える
-            StatusModelSinglton.Instance.NextScene();
-        }
-        if(StatusModelSinglton.Instance.enemyWin == 2)
-        {
-            //エネミーの勝利 点数をリセットする
-            StatusModelSinglton.Instance.GamePointReset();
-            //シーンを切り替える
-            StatusModelSinglton.Instance.NextScene();
-        }
 
     }
     private void OnCollisionEnter(Collision other)

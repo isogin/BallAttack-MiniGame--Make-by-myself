@@ -22,7 +22,29 @@ public class StatusModelSinglton : SingletonMonoBehaviour<StatusModelSinglton>
     // Update is called once per frame
     void Update()
     {
-        
+        if (playerWin == 1)
+        {
+
+        }
+        if (enemyWin == 1)
+        {
+
+        }
+        if (playerWin == 2)
+        {
+            //プレイヤーの勝利  点数をリセットする
+            GamePointReset();
+
+            //シーンを切り替える
+            NextScene();
+        }
+        if (enemyWin == 2)
+        {
+            //エネミーの勝利 点数をリセットする
+            GamePointReset();
+            //シーンを切り替える
+            NextScene();
+        }
     }
 
     public void OnPlayerRoundWin()

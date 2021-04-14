@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyClone : MonoBehaviour
+public class PlayerClone : MonoBehaviour
 {
-    GameObject player;
+    GameObject enemy;
     bool finishTrace = true;
     Rigidbody rb;
     public float enemySpeed;
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player");
+        enemy = GameObject.Find("Enemy");
         rb = GetComponent<Rigidbody>();
         Invoke("TraceFinish", 4f);
         Invoke("Destroy", 5.5f);
@@ -20,8 +20,8 @@ public class EnemyClone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 trace = (player.transform.position - this.gameObject.transform.position).normalized;
-        if(finishTrace)
+        Vector3 trace = (enemy.transform.position - this.gameObject.transform.position).normalized;
+        if (finishTrace)
         {
             rb.AddForce(trace * enemySpeed);
         }

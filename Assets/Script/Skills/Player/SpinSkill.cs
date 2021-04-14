@@ -54,6 +54,7 @@ public class SpinSkill : MonoBehaviour
             rb.AddForce(right, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(0, 0, -zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
+            StartCoroutine("Coroutine");
 
 
         }
@@ -64,7 +65,7 @@ public class SpinSkill : MonoBehaviour
             rb.AddForce(left, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(0, 0, zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
-
+            StartCoroutine("Coroutine");
 
         }
 
@@ -75,7 +76,7 @@ public class SpinSkill : MonoBehaviour
             rb.AddForce(up, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(ySipnPower, 0, 0) * Mathf.PI, ForceMode.VelocityChange);
-
+            StartCoroutine("Coroutine");
         }
 
 
@@ -86,7 +87,7 @@ public class SpinSkill : MonoBehaviour
             rb.AddForce(down, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(-ySipnPower, 0 , 0) * Mathf.PI, ForceMode.VelocityChange);
-
+            StartCoroutine("Coroutine");
 
         }
 
@@ -94,6 +95,7 @@ public class SpinSkill : MonoBehaviour
 
     IEnumerator Coroutine()
     {
+        yield return new WaitForSeconds(0.1f);
         rb.mass = changeMass;
         yield return new WaitForSeconds(0.7f);
         rb.mass = defaultMass;
