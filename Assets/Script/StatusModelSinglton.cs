@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class StatusModelSinglton : SingletonMonoBehaviour<StatusModelSinglton>
 {
     //プレイヤーの勝ち数
@@ -67,5 +67,7 @@ public class StatusModelSinglton : SingletonMonoBehaviour<StatusModelSinglton>
     public void NextScene()
     {
         Debug.Log("シーンが切り替わりました");
+        SceneManager.LoadScene(0);
+
     }
 }
