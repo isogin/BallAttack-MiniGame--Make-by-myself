@@ -6,7 +6,6 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
 {
     public float restartTime;
 
-    bool isEnd = false;
      GameObject resultText;
      GameObject playerText;
      GameObject enemyText;
@@ -15,16 +14,26 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
      GameObject player;
      GameObject enemy;
 
+    public Text playerScore;
+    public Text enemyScore;
+    public Text result;
+
      Vector3 firstPlayerPos;
      Vector3 firstEnemyPos;
     // Start is called before the first frame update
     void Start()
     {
+
         resultText = GameObject.Find("GameResultText");
         enemyText = GameObject.Find("EnemyPoint");
         playerText = GameObject.Find("PlayerPoint");
+
         player = GameObject.Find("Player");
         enemy = GameObject.Find("Enemy");
+
+        playerScore = playerText.GetComponent<Text>();
+        enemyScore = enemyText.GetComponent<Text>();
+        result = resultText.GetComponent<Text>();
 
         firstEnemyPos = enemy.transform.position;
         firstPlayerPos = player.transform.position;
@@ -33,7 +42,24 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
     // Update is called once per frame
     void Update()
     {
-
+        if(StatusModelSinglton.Instance.enemyWin == 1)
+        {
+            enemyScore.text = "〇";
+        }
+        if(StatusModelSinglton.Instance.playerWin == 1)
+        {
+            playerScore.text = "〇";
+        }
+        if(StatusModelSinglton.Instance.enemyWin == 2)
+        {
+            enemyScore.text = "〇〇";
+            result.text = "Game Over!!";
+        }
+        if(StatusModelSinglton.Instance.playerWin == 2)
+        {
+            playerScore.text = "〇〇";
+            result.text = "Game Clear!!";
+        }
 
     }
     private void OnCollisionEnter(Collision other)
@@ -41,7 +67,6 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
         if(other.gameObject.tag == "PlayerBall")
         {
             StatusModelSinglton.Instance.OnEnemyRoundWin();
-            this.isEnd = true;
             Debug.Log($"roundFinish ,playerPoint{StatusModelSinglton.Instance.playerWin}");
             Debug.Log($"roundFinish ,enemyPoint{StatusModelSinglton.Instance.enemyWin}");
             StartCoroutine("Restart");
@@ -51,7 +76,6 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
         if(other.gameObject.tag == "enemyBall")
         {
             StatusModelSinglton.Instance.OnPlayerRoundWin();
-            this.isEnd = true;
             Debug.Log($"roundFinish ,enemyPoint{StatusModelSinglton.Instance.enemyWin}");
             Debug.Log($"roundFinish ,playerPoint{StatusModelSinglton.Instance.playerWin}");
             StartCoroutine("Restart");

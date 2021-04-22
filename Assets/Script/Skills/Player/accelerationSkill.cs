@@ -12,6 +12,9 @@ public class accelerationSkill : MonoBehaviour
     GameObject enemy;
     bool skillOn = false;
 
+    SkillController skillcontroller;
+    public GameObject skillcontrollObject;
+
     public float firstMass;
     public float traceIndex;
     // Start is called before the first frame update
@@ -21,7 +24,7 @@ public class accelerationSkill : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
         tr = this.gameObject.GetComponent<TrailRenderer>();
 
-
+        skillcontroller = skillcontrollObject.GetComponent<SkillController>();
     }
 
     // Update is called once per frame
@@ -30,7 +33,8 @@ public class accelerationSkill : MonoBehaviour
         Vector3 traceVector = enemy.transform.position - gameObject.transform.position;
         diff = (gameObject.transform.position - latestPos).normalized;
         latestPos = gameObject.transform.position;
-        if (Input.GetKeyDown(KeyCode.X))
+
+        if (Input.GetKeyDown(KeyCode.Space) || skillcontroller.skillOnPossible)
         {
             rb.AddForce(diff * acceleratePower, ForceMode.Impulse);
             tr.enabled = true;
@@ -38,6 +42,8 @@ public class accelerationSkill : MonoBehaviour
             rb.mass = firstMass * 1.5f;
             Invoke("StopAccelerate", 0.8f);
             Invoke("StopTrail", 0.8f);
+
+            skillcontroller.SkillUsed();
 
         }
         if(skillOn == true)

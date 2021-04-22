@@ -15,7 +15,7 @@ public class AttackAreaClone : MonoBehaviour
     void Update()
     {
         Vector3 attackAreaIndex = player.transform.position - new Vector3(0, player.transform.position.y, 0);
-        float attackAreaMagnitude = attackAreaIndex.magnitude * 0.8f;
+        float attackAreaMagnitude = attackAreaIndex.magnitude * 0.6f;
         this.gameObject.transform.localScale = new Vector3(attackAreaMagnitude, attackAreaMagnitude, attackAreaMagnitude);
 
     }

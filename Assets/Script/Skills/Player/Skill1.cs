@@ -8,16 +8,21 @@ public class Skill1 : MonoBehaviour
     public GameObject bullet;
     public float bulletSpeed;
 
+    public GameObject skillControllObject;
+    SkillController skillController;
+
     // Use this for initialization
     void Start()
     {
         player = GameObject.Find("Player");
+
+        skillController = skillControllObject.GetComponent<SkillController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || skillController.skillOnPossible)
         {
             for (int i = 0; i < 8; i++)
             {
@@ -28,6 +33,7 @@ public class Skill1 : MonoBehaviour
                 Instantiate(bullet, tmp, transform.rotation);
                 
             }
+            skillController.SkillUsed();
    
         }
     }

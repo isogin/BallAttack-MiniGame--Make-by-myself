@@ -19,6 +19,9 @@ public class SpinSkill : MonoBehaviour
     public GameObject spinSkillObject;
     public ParticleSystem spinSkill;
 
+    public GameObject skillControllObject;
+    SkillController skillController;
+
     Vector3 right;
     Vector3 left;
     Vector3 down;
@@ -44,11 +47,13 @@ public class SpinSkill : MonoBehaviour
 
         routine = Coroutine();
         StartCoroutine(routine);
+
+        skillController = skillControllObject.GetComponent<SkillController>();
     }
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) || skillController.skillOnPossible)
         {
             rb.velocity = Vector3.zero;
             rb.AddForce(right, ForceMode.Impulse);
@@ -56,20 +61,21 @@ public class SpinSkill : MonoBehaviour
             rb.AddTorque(new Vector3(0, 0, -zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
             StartCoroutine("Coroutine");
 
-
+            skillController.SkillHalfUsed();
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || skillController.skillOnPossible)
         {
             rb.velocity = Vector3.zero;
             rb.AddForce(left, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(0, 0, zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
             StartCoroutine("Coroutine");
+            skillController.SkillHalfUsed();
 
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) || skillController.skillOnPossible)
         {
 
             rb.velocity = Vector3.zero;
@@ -77,11 +83,12 @@ public class SpinSkill : MonoBehaviour
             spinSkill.Play();
             rb.AddTorque(new Vector3(ySipnPower, 0, 0) * Mathf.PI, ForceMode.VelocityChange);
             StartCoroutine("Coroutine");
+            skillController.SkillHalfUsed();
         }
 
 
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) || skillController.skillOnPossible)
         {  
             rb.velocity = Vector3.zero;
             rb.AddForce(down, ForceMode.Impulse);
@@ -89,6 +96,7 @@ public class SpinSkill : MonoBehaviour
             rb.AddTorque(new Vector3(-ySipnPower, 0 , 0) * Mathf.PI, ForceMode.VelocityChange);
             StartCoroutine("Coroutine");
 
+            skillController.SkillHalfUsed();
         }
 
     }

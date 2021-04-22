@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Chronos;
-public class ChronosBaseBehavior : MonoBehaviour
+using UnityEngine.SceneManagement;
+
+public class TitleScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -13,14 +14,11 @@ public class ChronosBaseBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-    }
-    public Timeline time
-    {
-        get
-        {
-            return GetComponent<Timeline>();
-        }
-    }
         
+    }
+
+    public void OnStart()
+    {
+        SceneManager.LoadScene(1);
+    }
 }

@@ -21,7 +21,9 @@ public class Skill3DownView : MonoBehaviour
     public ParticleSystem skill3Explosion;
     public GameObject enemy;
     public DvenemyScript enemyScript;
-    // Start is called before the first frame update
+
+    public GameObject skillContorollObject;
+    SkillController skillController;
 
 
     void Start()
@@ -37,15 +39,18 @@ public class Skill3DownView : MonoBehaviour
 
         enemy = GameObject.Find("Enemy");
         enemyScript = enemy.GetComponent<DvenemyScript>();
+
+        skillController = skillContorollObject.GetComponent<SkillController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Space) || skillController.skillOnPossible)
         {
             StartCoroutine("Skill3Activate");
 
+            skillController.SkillUsed();
         }
     }
     IEnumerator Skill3Activate()

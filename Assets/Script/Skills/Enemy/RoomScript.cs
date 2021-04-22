@@ -6,46 +6,69 @@ public class RoomScript : MonoBehaviour
 {
     GameObject enemy;
     GameObject player;
-    Clock clock;
-    // Start is called before the first frame update
+
+    public GameObject particleObject;
+    
+
+    Rigidbody playerRB;
+
+
+    BallController playerScript;
+
+
+    public float normalIndex;
     void Start()
     {
         enemy = GameObject.Find("Enemy");
         player = GameObject.Find("Player");
         this.gameObject.transform.parent = enemy.gameObject.transform;
+
+        playerRB = player.GetComponent<Rigidbody>();
+
+        playerScript = player.GetComponent<BallController>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        clock = Timekeeper.instance.Clock("Root");
-        //何秒かで消滅する
+
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "playerBall")
+        if(other.gameObject.tag == "PlayerBall")
         {
-            DelayTime();
+            TimeDelay();
+
+            Instantiate(particleObject, player.transform.position, Quaternion.identity);
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.tag == "playerBall")
+        if (other.gameObject.tag == "PlayerBall")
         {
-            DefaultTime();
+            TimeNormal();
+
         }
+            
     }
 
-    void DelayTime()
+
+     private void TimeDelay()
     {
-        clock.localTimeScale = 0.5f;
+        playerRB.velocity *= 0.5f;
+       
+         playerScript.playerDefaultSpeed = playerScript.playerDefaultSpeed * 0.5f;
+
     }
-    void DefaultTime()
+
+    private void TimeNormal()
     {
-        clock.localTimeScale = 1;
+         playerRB.velocity *= normalIndex;
+        playerScript.playerDefaultSpeed = playerScript.playerDefaultSpeed * 2f;
+
     }
-
-
 }

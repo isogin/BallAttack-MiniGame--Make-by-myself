@@ -13,11 +13,21 @@ public class IncreaseSkillforPlayer : MonoBehaviour
     public float power;
     public float radius = 3.0f;
 
+
+    SkillController skillController;
+    public GameObject skillControllObject;
+
     public GameObject increaseEffect;
+
+    private void Start()
+    {
+        skillController = skillControllObject.GetComponent<SkillController>();
+    }
+        
     void Update()
     {
         timeElapsed += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.Space) || skillController.skillOnPossible)
         {
 
             increaseObjectClone = Instantiate(increaseObject, this.gameObject.transform.position, Quaternion.identity) as GameObject;
@@ -26,6 +36,7 @@ public class IncreaseSkillforPlayer : MonoBehaviour
             timeElapsed = 0.0f;
             rb = this.gameObject.GetComponent<Rigidbody>();
             rb2 = increaseObjectClone.GetComponent<Rigidbody>();
+            skillController.SkillUsed();
         }
     }
     IEnumerator IncreaseEffect()

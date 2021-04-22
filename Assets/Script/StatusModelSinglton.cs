@@ -16,7 +16,7 @@ public class StatusModelSinglton : SingletonMonoBehaviour<StatusModelSinglton>
     }
     void Start()
     {
-        
+        DontDestroyOnLoad(Instance);
     }
 
     // Update is called once per frame
