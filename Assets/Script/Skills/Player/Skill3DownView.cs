@@ -46,7 +46,7 @@ public class Skill3DownView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || skillController.skillOnPossible)
+        if (Input.GetKeyDown(KeyCode.Space) && skillController.skillOnPossible)
         {
             StartCoroutine("Skill3Activate");
 
@@ -65,6 +65,6 @@ public class Skill3DownView : MonoBehaviour
         rb.mass = 2.2f;
         ballControllerScript.playerDefaultSpeed = defaultPower;
 
-
+        skillController.SkillFinish();
     }
 }

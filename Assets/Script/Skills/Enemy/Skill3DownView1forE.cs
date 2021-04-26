@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill3DownViewforE : MonoBehaviour
+public class Skill3DownView1forE : MonoBehaviour
 {
     public Rigidbody rb;
     public float changeMass;
@@ -23,7 +23,10 @@ public class Skill3DownViewforE : MonoBehaviour
     public DvenemyScript enemyScript;
     // Start is called before the first frame update
 
+    public float timeOut;
+    private float timeElapsed;
 
+    bool skillFinish = true;
     void Start()
     {
         ballControllerScript = GetComponent<BallController>();
@@ -42,10 +45,11 @@ public class Skill3DownViewforE : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        timeElapsed = Time.deltaTime;
+        if (timeElapsed > timeOut && skillFinish)
         {
             StartCoroutine("Skill3Activate");
-
+            Invoke("SkillFinish", skill3Time);
         }
     }
     IEnumerator Skill3Activate()
@@ -59,7 +63,12 @@ public class Skill3DownViewforE : MonoBehaviour
         this.transform.localScale = startScale;
         rb.mass = 2.2f;
         ballControllerScript.playerDefaultSpeed = defaultPower;
+    }
 
+    void SkillFinish()
+    {
+        timeElapsed = 0;
 
+        skillFinish = true;
     }
 }

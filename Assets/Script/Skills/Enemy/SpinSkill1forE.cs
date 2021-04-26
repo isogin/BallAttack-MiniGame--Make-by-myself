@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpinSkillforE : MonoBehaviour
+public class SpinSkill1forE : MonoBehaviour
 {
     GameObject player;
     Rigidbody rb;

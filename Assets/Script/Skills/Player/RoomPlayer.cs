@@ -17,8 +17,12 @@ public class RoomPlayer : MonoBehaviour
 
     bool wherePlayer;
     public float normalIndex;
+
+    SkillController skillController;
+    public GameObject skillControllObject;
     void Start()
     {
+        skillControllObject = GameObject.Find("SkillController");
         enemy = GameObject.Find("Enemy");
         player = GameObject.Find("Player");
 
@@ -29,6 +33,8 @@ public class RoomPlayer : MonoBehaviour
         enemyScript = enemy.GetComponent<DvenemyScript>();
 
         Invoke("Destroy", skillTime);
+
+        skillController = skillControllObject.GetComponent<SkillController>();
     }
 
     // Update is called once per frame
@@ -83,7 +89,7 @@ public class RoomPlayer : MonoBehaviour
         enemyRB.velocity *= normalIndex;
         enemyScript.enemySpeed = enemyScript.enemySpeed * 2f;
 
-        enemyRB.mass += 0.8f;
+        enemyRB.mass += 0.5f;
     }
 
     void Destroy()
@@ -93,5 +99,6 @@ public class RoomPlayer : MonoBehaviour
             TimeNormal();
         }
         Destroy(this.gameObject);
+        skillController.SkillFinish();
     }
 }

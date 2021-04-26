@@ -4,17 +4,27 @@ using UnityEngine;
 using Chronos;
 public class ChrnosSkill1forE : MonoBehaviour
 {
-	private float moveSpeed = 1.0f;
     public GameObject room;
-    bool timeSkillOn = false;
+
+    public float timeOut;
+    private float timeElapsed;
+
+    bool firstSkillEffect = true;
     private void Start()
     {
         
     }
     void Update()
 	{
-      if(timeSkillOn)
+        timeElapsed += Time.deltaTime;
+      if(timeElapsed >= timeOut)
         {
+            if(firstSkillEffect)
+            {
+                timeOut += 5;
+            }
+
+            timeElapsed = 0;
             Instantiate(room, this.gameObject.transform.position, Quaternion.identity);
         }
 	}

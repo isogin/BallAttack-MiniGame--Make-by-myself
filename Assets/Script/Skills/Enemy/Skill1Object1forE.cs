@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill1ObjectforE : MonoBehaviour
+public class Skill1Object1forE : MonoBehaviour
 {
     public GameObject particleObject;
-    public DvenemyScript enemyScript;
-    GameObject enemy;
+    public BallController playerScript;
+    GameObject player;
     // Start is called before the first frame update
 
     //オブジェクトの点滅
@@ -14,10 +14,12 @@ public class Skill1ObjectforE : MonoBehaviour
     public float interval = 1.0f;
     Renderer renderer;
     public float bulletSpeed;
+
+    public float explosionIndex;
     void Start()
     {
-        enemy = GameObject.Find("Enemy");
-        enemyScript = enemy.GetComponent<DvenemyScript>();
+        player = GameObject.Find("Player");
+        playerScript = player.GetComponent<BallController>();
         nextTime = Time.time;
         renderer = GetComponent<Renderer>();
     }
@@ -37,10 +39,10 @@ public class Skill1ObjectforE : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if(other.gameObject.tag == "enemyBall")
+        if(other.gameObject.tag == "PlayerBall")
         {
             Instantiate(particleObject, this.transform.position, Quaternion.identity);
-            enemyScript.Skill1Discharge(this.gameObject.transform.position);
+            playerScript.Explosion(this.gameObject.transform.position,explosionIndex);
             Destroy(this.gameObject);
 
 

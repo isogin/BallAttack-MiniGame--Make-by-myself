@@ -27,16 +27,16 @@ public class IncreaseSkillforPlayer : MonoBehaviour
     void Update()
     {
         timeElapsed += Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) || skillController.skillOnPossible)
+        if (Input.GetKeyDown(KeyCode.Space)  && skillController.skillOnPossible)
         {
-
+            skillController.SkillUsed();
             increaseObjectClone = Instantiate(increaseObject, this.gameObject.transform.position, Quaternion.identity) as GameObject;
             StartCoroutine("IncreaseEffect");
 
             timeElapsed = 0.0f;
             rb = this.gameObject.GetComponent<Rigidbody>();
             rb2 = increaseObjectClone.GetComponent<Rigidbody>();
-            skillController.SkillUsed();
+            
         }
     }
     IEnumerator IncreaseEffect()

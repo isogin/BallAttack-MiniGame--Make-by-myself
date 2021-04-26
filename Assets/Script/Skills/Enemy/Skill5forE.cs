@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill3forE : MonoBehaviour
+public class Skill5forE : MonoBehaviour
 {
     public Rigidbody rb;
     public float changeMass;

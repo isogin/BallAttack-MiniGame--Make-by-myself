@@ -53,7 +53,7 @@ public class SpinSkill : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.D) || skillController.skillOnPossible)
+        if (Input.GetKeyDown(KeyCode.D) && skillController.skillOnHalfPossible)
         {
             rb.velocity = Vector3.zero;
             rb.AddForce(right, ForceMode.Impulse);
@@ -64,7 +64,7 @@ public class SpinSkill : MonoBehaviour
             skillController.SkillHalfUsed();
         }
 
-        if (Input.GetKeyDown(KeyCode.A) || skillController.skillOnPossible)
+        if (Input.GetKeyDown(KeyCode.A) && skillController.skillOnHalfPossible)
         {
             rb.velocity = Vector3.zero;
             rb.AddForce(left, ForceMode.Impulse);
@@ -75,7 +75,7 @@ public class SpinSkill : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.W) || skillController.skillOnPossible)
+        if (Input.GetKeyDown(KeyCode.W) && skillController.skillOnHalfPossible)
         {
 
             rb.velocity = Vector3.zero;
@@ -88,7 +88,7 @@ public class SpinSkill : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.S) || skillController.skillOnPossible)
+        if (Input.GetKeyDown(KeyCode.S) && skillController.skillOnHalfPossible)
         {  
             rb.velocity = Vector3.zero;
             rb.AddForce(down, ForceMode.Impulse);
@@ -107,5 +107,6 @@ public class SpinSkill : MonoBehaviour
         rb.mass = changeMass;
         yield return new WaitForSeconds(0.7f);
         rb.mass = defaultMass;
+        skillController.SkillFinish();
     }
 }

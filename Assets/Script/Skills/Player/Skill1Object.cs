@@ -14,12 +14,18 @@ public class Skill1Object : MonoBehaviour
     public float interval = 1.0f;
     Renderer renderer;
     public float bulletSpeed;
+
+    SkillController skillController;
+    public GameObject skillControllObject;
     void Start()
     {
+        skillControllObject = GameObject.Find("SkillController");
         enemy = GameObject.Find("Enemy");
         enemyScript = enemy.GetComponent<DvenemyScript>();
         nextTime = Time.time;
         renderer = GetComponent<Renderer>();
+
+        skillController = skillControllObject.GetComponent<SkillController>();
     }
     
     // Update is called once per frame
@@ -60,6 +66,7 @@ public class Skill1Object : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         Destroy(this.gameObject);
+        skillController.SkillFinish();
     }
 
 }

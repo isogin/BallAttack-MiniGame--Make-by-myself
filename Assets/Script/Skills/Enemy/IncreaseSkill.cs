@@ -7,6 +7,8 @@ public class IncreaseSkill : MonoBehaviour
     public float timeOut;
     private float timeElapsed;
     public GameObject increaseObject;
+    EnemyClone increaseScript;
+
     GameObject increaseObjectClone;
     Rigidbody rb;
     Rigidbody rb2;
@@ -14,10 +16,18 @@ public class IncreaseSkill : MonoBehaviour
     public float radius = 3.0f;
 
     public GameObject increaseEffect;
+
+    bool skillFinish = true;
+    private void Start()
+    {
+        increaseScript = increaseObject.GetComponent<EnemyClone>();
+
+
+    }
     void Update()
     {
         timeElapsed += Time.deltaTime;
-        if (timeElapsed >= timeOut)
+        if (timeElapsed >= timeOut && skillFinish)
         {
 
             increaseObjectClone = Instantiate(increaseObject,this.gameObject.transform.position,Quaternion.identity) as GameObject;
@@ -26,6 +36,9 @@ public class IncreaseSkill : MonoBehaviour
             timeElapsed = 0.0f;
             rb = this.gameObject.GetComponent<Rigidbody>();
             rb2 = increaseObjectClone.GetComponent<Rigidbody>();
+
+            skillFinish = false;
+            Invoke("Finish", increaseScript.lifeTime);
         }
     }
     IEnumerator IncreaseEffect()
@@ -37,5 +50,10 @@ public class IncreaseSkill : MonoBehaviour
         rb.AddExplosionForce(power, explosionPos, radius, 3.0f);
         rb2.AddExplosionForce(power, explosionPos, radius, 3.0f);
 
+    }
+    void Finish()
+    {
+        timeElapsed = 0;
+        skillFinish = true;
     }
 }

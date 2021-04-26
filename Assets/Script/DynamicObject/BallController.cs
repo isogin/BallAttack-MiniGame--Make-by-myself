@@ -40,6 +40,9 @@ public class BallController : MonoBehaviour
     Material myMaterial;
 
     bool halfPowerDone = false;
+
+    public float explosionPower;
+    public float radius;
     // Start is called before the first frame update
     void Start()
     {
@@ -203,6 +206,11 @@ void Update()
     void MassChange()
     {
         rb.mass = 2;
+    }
+
+    public void Explosion (Vector3 explosionPOs, float explosionIndex)
+    {
+        rb.AddExplosionForce(explosionPower * explosionIndex, explosionPOs, radius, 3.0F);
     }
 
     void ChargeAttackCoolTime()

@@ -8,13 +8,14 @@ public class EnemyClone : MonoBehaviour
     bool finishTrace = true;
     Rigidbody rb;
     public float enemySpeed;
-    // Start is called before the first frame update
+
+    public float lifeTime;
     void Start()
     {
         player = GameObject.Find("Player");
         rb = GetComponent<Rigidbody>();
-        Invoke("TraceFinish", 4f);
-        Invoke("Destroy", 5.5f);
+        Invoke("TraceFinish", lifeTime * 2 / 3);
+        Invoke("Destroy", lifeTime);
     }
 
     // Update is called once per frame

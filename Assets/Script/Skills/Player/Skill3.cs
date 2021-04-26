@@ -44,10 +44,10 @@ public class Skill3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || skillController.skillOnPossible)
+        if (Input.GetKeyDown(KeyCode.Space) && skillController.skillOnPossible)
         {
             StartCoroutine("Skill3Activate");
-            skillController.SkillUsed();
+            
         }
     }
     IEnumerator Skill3Activate()
@@ -62,6 +62,6 @@ public class Skill3 : MonoBehaviour
         rb.mass = startMass;
         ballControllerScript.playerDefaultSpeed = defaultPower;
 
-        
+        skillController.SkillUsed();
     }
 }

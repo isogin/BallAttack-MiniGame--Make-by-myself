@@ -34,7 +34,7 @@ public class accelerationSkill : MonoBehaviour
         diff = (gameObject.transform.position - latestPos).normalized;
         latestPos = gameObject.transform.position;
 
-        if (Input.GetKeyDown(KeyCode.Space) || skillcontroller.skillOnPossible)
+        if (Input.GetKeyDown(KeyCode.Space) && skillcontroller.skillOnPossible)
         {
             rb.AddForce(diff * acceleratePower, ForceMode.Impulse);
             tr.enabled = true;
@@ -44,7 +44,6 @@ public class accelerationSkill : MonoBehaviour
             Invoke("StopTrail", 0.8f);
 
             skillcontroller.SkillUsed();
-
         }
         if(skillOn == true)
         {
@@ -70,6 +69,8 @@ public class accelerationSkill : MonoBehaviour
             rb.mass = firstMass;
             tr.enabled = false;
             skillOn = false;
+
+            skillcontroller.SkillFinish();
         }
     }
 

@@ -17,6 +17,11 @@ public class RoomScript : MonoBehaviour
 
 
     public float normalIndex;
+
+    public float lifeTime;
+    float elapsedTime;
+
+    bool wherePlayer;
     void Start()
     {
         enemy = GameObject.Find("Enemy");
@@ -32,7 +37,11 @@ public class RoomScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        elapsedTime += Time.deltaTime;
+        if(elapsedTime >= lifeTime)
+        {
+            Destroy();
+        }
 
     }
 
@@ -42,16 +51,18 @@ public class RoomScript : MonoBehaviour
         {
             TimeDelay();
 
+            wherePlayer = true;
             Instantiate(particleObject, player.transform.position, Quaternion.identity);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        
         if (other.gameObject.tag == "PlayerBall")
         {
             TimeNormal();
-
+            wherePlayer = false;
         }
             
     }
@@ -60,15 +71,28 @@ public class RoomScript : MonoBehaviour
      private void TimeDelay()
     {
         playerRB.velocity *= 0.5f;
-       
+
+
+        playerRB.mass -= 0.5f;
          playerScript.playerDefaultSpeed = playerScript.playerDefaultSpeed * 0.5f;
 
     }
 
     private void TimeNormal()
     {
-         playerRB.velocity *= normalIndex;
+        playerRB.mass += 0.5f;
+        playerRB.velocity *= normalIndex;
         playerScript.playerDefaultSpeed = playerScript.playerDefaultSpeed * 2f;
+
+    }
+
+    void Destroy()
+    {
+        if (wherePlayer)
+        {
+            TimeNormal();
+        }
+        Destroy(this.gameObject);
 
     }
 }

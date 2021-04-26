@@ -8,9 +8,14 @@ public class PlayerClone : MonoBehaviour
     bool finishTrace = true;
     Rigidbody rb;
     public float enemySpeed;
-    // Start is called before the first frame update
+
+    public GameObject skillControllObject;
+    SkillController skillController;
     void Start()
     {
+        skillControllObject = GameObject.Find("SkillController");
+        skillController = skillControllObject.GetComponent<SkillController>();
+
         enemy = GameObject.Find("Enemy");
         rb = GetComponent<Rigidbody>();
         Invoke("TraceFinish", 4f);
@@ -33,5 +38,6 @@ public class PlayerClone : MonoBehaviour
     private void Destroy()
     {
         Destroy(this.gameObject);
+        skillController.SkillUsed();
     }
 }

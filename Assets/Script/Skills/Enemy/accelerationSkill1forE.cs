@@ -2,48 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class accelerationSkillforE : MonoBehaviour
+public class accelerationSkill1forE : MonoBehaviour
 {
     Rigidbody rb;
-    private Vector3 latestPos;
+
     public float acceleratePower;
-    public Vector3 diff;
+
     TrailRenderer tr;
-    GameObject enemy;
+    GameObject player;
     bool skillOn = false;
 
     public float firstMass;
     public float traceIndex;
-    // Start is called before the first frame update
+
+    public float timeOut;
+    private float timeElapsed;
+
+    public float skillTime;
+    bool skillFinish = true;
     void Start()
     {
-        enemy = GameObject.Find("Enemy");
-        rb = gameObject.GetComponent<Rigidbody>();
+        player = GameObject.Find("Player");
+        rb = this.gameObject.GetComponent<Rigidbody>();
         tr = this.gameObject.GetComponent<TrailRenderer>();
 
-
+        firstMass = rb.mass;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 traceVector = enemy.transform.position - gameObject.transform.position;
-        diff = (gameObject.transform.position - latestPos).normalized;
-        latestPos = gameObject.transform.position;
-        if (Input.GetKeyDown(KeyCode.X))
+        timeElapsed += Time.deltaTime;
+
+        Vector3 traceVector = (player.transform.position - this.gameObject.transform.position).normalized;
+
+        if (timeElapsed >= timeOut && skillFinish)
         {
-            rb.AddForce(diff * acceleratePower, ForceMode.Impulse);
+            timeElapsed = 0f;
+            rb.AddForce(traceVector * acceleratePower, ForceMode.Impulse);
             tr.enabled = true;
             SkillOn();
             rb.mass = firstMass * 1.5f;
-            Invoke("StopAccelerate", 0.8f);
-            Invoke("StopTrail", 0.8f);
+            Invoke("StopAccelerateAndTrail", skillTime);
+            Invoke("SkillFinish", skillTime);
+            skillFinish = false;
 
         }
         if(skillOn == true)
         {
             rb.AddForce(traceVector * traceIndex);
-            
+
         }
 
     }
@@ -51,14 +59,9 @@ public class accelerationSkillforE : MonoBehaviour
     {
         skillOn = true;
     }
-    void StopAccelerate()
+    void StopAccelerateAndTrail()
     {
-        rb.velocity = rb.velocity * 0.5f;
-
-    }
-    void StopTrail()
-    {
-        
+        rb.velocity *=  0.5f;
         if (skillOn == true)
         {
             rb.mass = firstMass;
@@ -66,12 +69,27 @@ public class accelerationSkillforE : MonoBehaviour
             skillOn = false;
         }
     }
+    void TouchObject()
+    {
+        if (skillOn == true)
+        {
+            rb.mass = firstMass;
+            tr.enabled = false;
+            skillOn = false;
+        }
+    }
+    void SkillFinish()
+    {
+        skillFinish = true;
+        timeElapsed = 0;
+        
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "enemyBall" && skillOn == true)
+        if(collision.gameObject.tag == "PlayerBall" && skillOn == true)
         {
-            StopTrail();
+            TouchObject();
         }
     }
 }

@@ -21,6 +21,12 @@ public class HomingSystem : MonoBehaviour
     GameObject enemy;
     public DvenemyScript enemyScript;
 
+
+    public GameObject skillControllObject;
+    SkillController skillController;
+
+    public float lifeTime;
+    public float timeElapsed;
     void Start()
     {
         enemy = GameObject.Find("Enemy");
@@ -30,12 +36,25 @@ public class HomingSystem : MonoBehaviour
         // rigidbody取得
         rigid = this.GetComponent<Rigidbody>();
         rigid.AddForce(new Vector3(0, 10f, 0), ForceMode.Impulse);
+
+        skillControllObject = GameObject.Find("SkillController");
+        skillController = skillControllObject.GetComponent<SkillController>();
     }
 
 
     void Update()
     {
+        timeElapsed = Time.deltaTime;
 
+        if(timeElapsed > lifeTime)
+        {
+            enemyScript.Skill4Discharge(this.gameObject.transform.position);
+            //パーティクルの発生
+            Instantiate(particleObject, this.transform.position, Quaternion.identity);
+            skillController.SkillFinish();
+            Destroy(this.gameObject);
+
+        }
         acceleration = Vector3.zero;
 
         target = enemy.transform;
@@ -75,8 +94,10 @@ public class HomingSystem : MonoBehaviour
             //パーティクルの発生
             Instantiate(particleObject, this.transform.position, Quaternion.identity);
 
+            skillController.SkillFinish();
             // 何かに当たったら自分自身を削除
             Destroy(this.gameObject);
+            
         }
 
     }
