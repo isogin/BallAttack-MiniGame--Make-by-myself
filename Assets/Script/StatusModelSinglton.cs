@@ -54,6 +54,7 @@ public class StatusModelSinglton : SingletonMonoBehaviour<StatusModelSinglton>
         yield return new WaitForSeconds(3.0f);
         
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GamePointReset();
     }
 
     void SceneChange()

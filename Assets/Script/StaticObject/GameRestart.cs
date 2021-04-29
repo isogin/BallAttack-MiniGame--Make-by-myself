@@ -19,5 +19,7 @@ public class GameRestart : MonoBehaviour
     public void GameReset()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        StatusModelSinglton.Instance.GamePointReset();
+        this.gameObject.SetActive (false);
     }
 }

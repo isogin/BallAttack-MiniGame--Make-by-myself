@@ -18,15 +18,15 @@ namespace BallAttack
             if (StatusModelSinglton.Instance.playerWin == 2)
             {
                 //プレイヤーの勝利  点数をリセットする
-                StatusModelSinglton.Instance.GamePointReset();
+                
 
                 //シーンを切り替える
                 StatusModelSinglton.Instance.NextScene();
             }
             if (StatusModelSinglton.Instance.enemyWin == 2)
             {
-                //エネミーの勝利 点数をリセットする
-                StatusModelSinglton.Instance.GamePointReset();
+                
+                
 
             }
         }

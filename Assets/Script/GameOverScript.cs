@@ -19,23 +19,22 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
     public Text result;
 
     // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
-
-
         player = GameObject.Find("Player");
         enemy = GameObject.Find("Enemy");
 
         playerScore = playerText.GetComponent<Text>();
         enemyScore = enemyText.GetComponent<Text>();
         result = resultText.GetComponent<Text>();
-
     }
-
     // Update is called once per frame
     void Update()
     {
-        if(StatusModelSinglton.Instance.enemyWin == 1)
+
+
+        if (StatusModelSinglton.Instance.enemyWin == 1)
         {
             enemyScore.text = "〇";
         }
@@ -45,9 +44,10 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
         }
         if(StatusModelSinglton.Instance.enemyWin == 2)
         {
+            GameRestartBotton.SetActive(true);
             enemyScore.text = "〇〇";
             result.text = "Game Over!!";
-            GameRestartBotton.SetActive(true);
+            
         }
         if(StatusModelSinglton.Instance.playerWin == 2)
         {
