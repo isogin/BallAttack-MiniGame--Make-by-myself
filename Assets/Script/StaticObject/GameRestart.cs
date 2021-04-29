@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TitleScript : MonoBehaviour
+public class GameRestart : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -16,9 +16,8 @@ public class TitleScript : MonoBehaviour
     {
         
     }
-
-    public void OnStart()
+    public void GameReset()
     {
-        FadeManager.Instance.LoadScene("Stage4", 3f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

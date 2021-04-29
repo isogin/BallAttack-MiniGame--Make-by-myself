@@ -27,8 +27,7 @@ namespace BallAttack
             {
                 //エネミーの勝利 点数をリセットする
                 StatusModelSinglton.Instance.GamePointReset();
-                //シーンを切り替える
-                StatusModelSinglton.Instance.NextScene();
+
             }
         }
     }
