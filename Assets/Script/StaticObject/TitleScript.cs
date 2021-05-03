@@ -19,6 +19,6 @@ public class TitleScript : MonoBehaviour
 
     public void OnStart()
     {
-        FadeManager.Instance.LoadScene("Stage4", 3f);
+        FadeManager.Instance.LoadScene("Parkour", 3f);
     }
 }

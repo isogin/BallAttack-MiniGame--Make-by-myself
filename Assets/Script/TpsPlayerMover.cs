@@ -11,6 +11,10 @@ public class TpsPlayerMover : MonoBehaviour
     public Rigidbody rb;
     public bool airPosition;
 
+
+    public float collisionImpact;
+    public float collisionImpactLImit;
+
     public float forceMagnitude;
     Vector3 forceD = new Vector3(10.0f, 0f, 0f);
     Vector3 forceA = new Vector3(-10.0f, 0f, 0f);
@@ -50,6 +54,8 @@ public class TpsPlayerMover : MonoBehaviour
         impactSound = GetComponent<AudioSource>();
 
         myMaterial = GetComponent<Renderer>().material;
+
+
     }
 
     // Update is called once per frame
@@ -57,7 +63,7 @@ public class TpsPlayerMover : MonoBehaviour
     {
 
         Vector3 camToPlayer = this.gameObject.transform.position - Camera.main.transform.position;
-        Vector3 moveRightLeft = camToPlayer  + Camera.main.transform.right * x;
+        Vector3 moveRightLeft = camToPlayer + Camera.main.transform.right * x;
         Vector3 moveUpDown = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized * z;
 
 
@@ -81,84 +87,14 @@ public class TpsPlayerMover : MonoBehaviour
             z = -1 * playerDefaultSpeed;
             rb.AddForce(moveUpDown / (rb.velocity.magnitude + 1) * limitSpeed);
         }
-        
 
-        if(Input.GetKey(KeyCode.Space) && airPosition)
+
+        if (Input.GetKey(KeyCode.LeftShift) && airPosition)
         {
             rb.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
         }
-        // ボタンを離した際に一定値以上カウントが溜まっていればアクション実行
-        if (Input.GetKey(KeyCode.D) && spaceJudge)
-        {
-            if (invoke_require_count <= current_count)
-            {
-                Vector3 forcefinal = forceMagnitude * forceD;
-                current_count = 0;
-                ChargeAttackCoolTime();
-                rb.AddForce(forcefinal, ForceMode.Impulse);
-                rb.mass = 5;
-                Invoke("MassChange", changeTime);
-
-            }
-        }
-
-
-        if (Input.GetKey(KeyCode.A) && spaceJudge)
-        {
-            if (invoke_require_count <= current_count)
-            {
-                Vector3 forcefinal = forceMagnitude * forceA;
-                current_count = 0;
-                ChargeAttackCoolTime();
-                rb.AddForce(forcefinal, ForceMode.Impulse);
-                rb.mass = 5;
-                Invoke("MassChange", changeTime);
-
-            }
-        }
-
-        if (Input.GetKey(KeyCode.W) && spaceJudge)
-        {
-            if (invoke_require_count <= current_count)
-            {
-                Vector3 forcefinal = forceMagnitude * forceW;
-                current_count = 0;
-                ChargeAttackCoolTime();
-                rb.AddForce(forcefinal, ForceMode.Impulse);
-                rb.mass = 5;
-                Invoke("MassChange", changeTime);
-
-            }
-        }
-
-
-
-        if (Input.GetKey(KeyCode.S) && spaceJudge)
-        {
-            if (invoke_require_count <= current_count)
-            {
-                Vector3 forcefinal = forceMagnitude * forceS;
-                current_count = 0;
-                ChargeAttackCoolTime();
-                rb.AddForce(forcefinal, ForceMode.Impulse);
-                rb.mass = 5;
-                Invoke("MassChange", changeTime);
-
-            }
-        }
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W))
-        {
-            current_count++;
-        }
-        else
-        {
-            // ボタンを離した場合はリセット
-            current_count = 0;
-        }
 
     }
-
-    /// <summary>
 
 
     void Update()
@@ -179,11 +115,10 @@ public class TpsPlayerMover : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        collisionImpact = other.impulse.magnitude;
         if (other.gameObject.tag == "enemyBall")
         {
             impactSound.PlayOneShot(impactSound.clip);
-
-
 
         }
     }

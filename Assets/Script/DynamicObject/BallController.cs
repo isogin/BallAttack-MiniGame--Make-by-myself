@@ -109,7 +109,6 @@ public class BallController : MonoBehaviour
             angle = Vector3.Angle(x, diff);
             rb.AddForce(x * angle * firstForce * 0.0001f, ForceMode.Impulse);
         }
-        Debug.Log(angle);
 
 
     }
