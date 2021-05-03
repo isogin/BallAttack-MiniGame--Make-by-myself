@@ -6,17 +6,16 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
 {
     public float restartTime;
 
-     GameObject resultText;
-     GameObject playerText;
-     GameObject enemyText;
 
     public GameObject GameRestartBotton;
      GameObject player;
      GameObject enemy;
 
     public Text playerScore;
-    public Text enemyScore;
+    public  Text enemyScore;
     public Text result;
+    public Rigidbody rbPlayer;
+    public Rigidbody rbEnemy;
 
     // Start is called before the first frame update
 
@@ -25,9 +24,6 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
         player = GameObject.Find("Player");
         enemy = GameObject.Find("Enemy");
 
-        playerScore = playerText.GetComponent<Text>();
-        enemyScore = enemyText.GetComponent<Text>();
-        result = resultText.GetComponent<Text>();
     }
     // Update is called once per frame
     void Update()
@@ -84,7 +80,9 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
 
         yield return new WaitForSeconds(restartTime);
 
-        player.transform.position = new Vector3(0, 3, 0);
-        enemy.transform.position = new Vector3(1, 3, 1);
+        rbEnemy.velocity = Vector3.zero;
+        rbPlayer.velocity = Vector3.zero;
+        player.transform.position = new Vector3(-3.5f, 5, 0);
+        enemy.transform.position = new Vector3(3.5f, 5, 0);
     }
 }

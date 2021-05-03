@@ -8,18 +8,14 @@ public class BallController : MonoBehaviour
 
    //十字キーで玉を動かすための値
     public float playerDefaultSpeed;
-    float x;
-    float z;
+
     public Rigidbody rb;
     public bool airPosition;
 
     public float forceMagnitude;
-    Vector3 forceD = new Vector3(10.0f, 0f, 0f);
-    Vector3 forceA = new Vector3(-10.0f, 0f, 0f);
-    Vector3 forceW = new Vector3(0, 0f, 10.0f);
-    Vector3 forceS = new Vector3(0f, 0f, -10.0f);
+
     /// チャージ攻撃発動に必要なカウント
-    /// </summary>
+
     public  float invoke_require_count = 5;
     //衝突音の作成
     public AudioSource impactSound;
@@ -43,7 +39,13 @@ public class BallController : MonoBehaviour
 
     public float explosionPower;
     public float radius;
-    // Start is called before the first frame update
+
+    public float firstForce;
+
+    Vector3 latestPos;
+    Vector3 x;
+
+    float angle;
     void Start()
     {
         enemy = GameObject.Find("Enemy");
@@ -61,97 +63,54 @@ public class BallController : MonoBehaviour
     void FixedUpdate()
     {
         
+        Vector3 diff = this.gameObject.transform.position - latestPos;   //前回からどこに進んだかをベクトルで取得
+        latestPos = this.gameObject.transform.position;  //前回のPositionの更新
 
-
-        if(Input.GetKey(KeyCode.LeftArrow) && airPosition)
+        if (Input.GetKey(KeyCode.LeftArrow) && airPosition)
         {
-            x = -1 * playerDefaultSpeed;
-            rb.AddForce(x, 0, 0);
+            //現在の速度が遅いほど、加える力を大きくする
+            x = new Vector3(-1 * playerDefaultSpeed, 0,0);
+            rb.AddForce(x);
         }
         if (Input.GetKey(KeyCode.RightArrow) && airPosition)
         {
-            x = 1 * playerDefaultSpeed;
-            rb.AddForce(x, 0, 0);
+            x = new Vector3(1 * playerDefaultSpeed, 0, 0);
+            rb.AddForce(x);
         }
         if (Input.GetKey(KeyCode.UpArrow) && airPosition)
         {
-            z = 1 * playerDefaultSpeed;
-            rb.AddForce(0, 0, z);
+            x = new Vector3(0, 0,1 * playerDefaultSpeed);
+
+            rb.AddForce(x);
         }
         if (Input.GetKey(KeyCode.DownArrow) && airPosition)
         {
-            z = -1 * playerDefaultSpeed;
-            rb.AddForce(0, 0, z);
+            x =new Vector3(0, 0, -1 * playerDefaultSpeed);
+            rb.AddForce(x);
         }
-
-        // ボタンを離した際に一定値以上カウントが溜まっていればアクション実行
-        if (Input.GetKey(KeyCode.D) && spaceJudge)
+        //慣性無効補正
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && airPosition)
         {
-            if (invoke_require_count <= current_count)
-            {
-                Vector3 forcefinal = forceMagnitude * forceD;
-                current_count = 0;
-                ChargeAttackCoolTime();
-                rb.AddForce(forcefinal, ForceMode.Impulse);
-                rb.mass = 5;
-                Invoke("MassChange", changeTime);
-
-            }
+            angle = Vector3.Angle(x, diff);
+            rb.AddForce(x * angle * firstForce * 0.0001f, ForceMode.Impulse);
         }
-
-
-        if (Input.GetKey(KeyCode.A) && spaceJudge)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && airPosition)
         {
-            if (invoke_require_count <= current_count)
-            {
-                Vector3 forcefinal = forceMagnitude * forceA;
-                current_count = 0;
-                ChargeAttackCoolTime();
-                rb.AddForce(forcefinal, ForceMode.Impulse);
-                rb.mass = 5;
-                Invoke("MassChange", changeTime);
-
-            }
+            angle = Vector3.Angle(x, diff);
+            rb.AddForce(x * angle * firstForce * 0.0001f, ForceMode.Impulse);
         }
-
-        if (Input.GetKey(KeyCode.W) && spaceJudge)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && airPosition)
         {
-            if (invoke_require_count <= current_count)
-            {
-                Vector3 forcefinal = forceMagnitude * forceW;
-                current_count = 0;
-                ChargeAttackCoolTime();
-                rb.AddForce(forcefinal, ForceMode.Impulse);
-                rb.mass = 5;
-                Invoke("MassChange", changeTime);
-
-            }
+            angle = Vector3.Angle(x, diff);
+            rb.AddForce(x * angle * firstForce * 0.0001f, ForceMode.Impulse);
         }
-
-
-
-        if (Input.GetKey(KeyCode.S) && spaceJudge)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && airPosition)
         {
-            if (invoke_require_count <= current_count)
-            {
-                Vector3 forcefinal = forceMagnitude * forceS;
-                current_count = 0;
-                ChargeAttackCoolTime();
-                rb.AddForce(forcefinal, ForceMode.Impulse);
-                rb.mass = 5;
-                Invoke("MassChange", changeTime);
+            angle = Vector3.Angle(x, diff);
+            rb.AddForce(x * angle * firstForce * 0.0001f, ForceMode.Impulse);
+        }
+        Debug.Log(angle);
 
-            }
-        }
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W))
-        {
-            current_count++;
-        }
-        else
-        {
-            // ボタンを離した場合はリセット
-            current_count = 0;
-        }
 
     }
 
@@ -162,16 +121,7 @@ void Update()
     {
 
     }
-    public float PropChargeCount()
-    {
-        // 既に溜まっている場合は1を返す
-        if (invoke_require_count <= current_count)
-        {
-            return 1f;
-        }
-        // float型にキャストして割合を計算
-        return (float)current_count / (float)invoke_require_count;
-    }
+
 
 
     private void OnCollisionEnter(Collision other)
@@ -213,11 +163,7 @@ void Update()
         rb.AddExplosionForce(explosionPower * explosionIndex, explosionPOs, radius, 3.0F);
     }
 
-    void ChargeAttackCoolTime()
-    {
-        spaceJudge = false;
-        Invoke("SpaceBool", 5.0f);
-    }
+
 
     void SpaceBool()
     {

@@ -64,22 +64,22 @@ public class TpsPlayerMover : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow) && airPosition)
         {
             x = -1 * playerDefaultSpeed;
-            rb.AddForce(moveRightLeft / (rb.velocity.magnitude + 1) * 10);
+            rb.AddForce(moveRightLeft / (rb.velocity.magnitude + 1) * limitSpeed);
         }
         if (Input.GetKey(KeyCode.RightArrow) && airPosition)
         {
             x = 1 * playerDefaultSpeed;
-            rb.AddForce(moveRightLeft / (rb.velocity.magnitude + 1) * 10);
+            rb.AddForce(moveRightLeft / (rb.velocity.magnitude + 1) * limitSpeed);
         }
         if (Input.GetKey(KeyCode.UpArrow) && airPosition)
         {
             z = 1 * playerDefaultSpeed;
-            rb.AddForce(moveUpDown / (rb.velocity.magnitude + 1) * 10);
+            rb.AddForce(moveUpDown / (rb.velocity.magnitude + 1) * limitSpeed);
         }
         if (Input.GetKey(KeyCode.DownArrow) && airPosition)
         {
             z = -1 * playerDefaultSpeed;
-            rb.AddForce(moveUpDown / (rb.velocity.magnitude + 1) * 10);
+            rb.AddForce(moveUpDown / (rb.velocity.magnitude + 1) * limitSpeed);
         }
         
 
