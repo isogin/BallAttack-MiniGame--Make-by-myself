@@ -92,7 +92,7 @@ public class HomingSystemforE : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "enemyBall" || other.gameObject.tag == "Stage")
+        if (other.gameObject.tag == "PlayerBall" || other.gameObject.tag == "Stage")
         {
             playerScript.Explosion(this.gameObject.transform.position, explosionIndex);
             //パーティクルの発生

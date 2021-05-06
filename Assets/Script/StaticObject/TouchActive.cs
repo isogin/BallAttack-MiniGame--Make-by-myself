@@ -21,8 +21,14 @@ public class TouchActive : MonoBehaviour
     {
         if(collision.gameObject.tag == "PlayerBall")
         {
-            activeObject.SetActive(true);
+            StartCoroutine("Active");
         }
+
+    }
+    IEnumerator Active()
+    {
+        yield return new WaitForSeconds(2f);
+        activeObject.SetActive(true);
 
     }
 }

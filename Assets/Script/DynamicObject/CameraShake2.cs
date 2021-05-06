@@ -23,6 +23,7 @@ public class CameraShake2 : MonoBehaviour
         if((playerScript.collisionImpactLimit < playerScript.collisionImpact) && shake)
         {
             Shake(playerScript.collisionImpact * 0.8f, duration);
+            playerScript.collisionImpact = 0f;
             StartCoroutine("ShakeSet");
             shake = false;
 
