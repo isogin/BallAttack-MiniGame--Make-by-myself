@@ -105,7 +105,7 @@ public class DvenemyScript : MonoBehaviour
             Vector3 fusionVector = (runAwayPosition + centerForce) / 2;
             if (rb.velocity.magnitude < LimitSpeed)
             {
-                rb.AddForce(fusionVector * enemySpeed * 0.3f);
+                rb.AddForce(fusionVector * enemySpeed * 0.275f);
             }
 
 

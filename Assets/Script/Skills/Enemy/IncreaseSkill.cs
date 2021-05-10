@@ -45,7 +45,7 @@ public class IncreaseSkill : MonoBehaviour
     {
         Instantiate(increaseEffect, this.gameObject.transform.position, Quaternion.identity);
         yield return new WaitForSeconds(0.1f);
-        Vector3 explosionPos = this.gameObject.transform.position - increaseObjectClone.transform.position;
+        Vector3 explosionPos = transform.position - increaseObjectClone.transform.position;
         rb2 = increaseObject.GetComponent<Rigidbody>();
         rb.AddExplosionForce(power, explosionPos, radius, 3.0f);
         rb2.AddExplosionForce(power, explosionPos, radius, 3.0f);

@@ -8,9 +8,10 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
 
 
     public GameObject GameRestartBotton;
-     GameObject player;
-     GameObject enemy;
-
+    GameObject player;
+    GameObject enemy;
+    SpinSkill1forE enemyScript;
+   
     public Text playerScore;
     public  Text enemyScore;
     public Text result;
@@ -23,7 +24,7 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
     {
         player = GameObject.Find("Player");
         enemy = GameObject.Find("Enemy");
-
+        enemyScript = enemy.GetComponent<SpinSkill1forE>();
     }
     // Update is called once per frame
     void Update()
@@ -84,5 +85,7 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
         rbPlayer.velocity = Vector3.zero;
         player.transform.position = new Vector3(-3.5f, 5, 0);
         enemy.transform.position = new Vector3(3.5f, 5, 0);
+
+        enemyScript.percent = 100;
     }
 }

@@ -22,6 +22,8 @@ namespace BallAttack
 
                 //シーンを切り替える
                 StatusModelSinglton.Instance.NextScene();
+
+
             }
             if (StatusModelSinglton.Instance.enemyWin == 2)
             {

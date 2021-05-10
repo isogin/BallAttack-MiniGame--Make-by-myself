@@ -78,7 +78,7 @@ public class accelerationSkill : MonoBehaviour
     {
         if(collision.gameObject.tag == "enemyBall" && skillOn == true)
         {
-            StopTrail();
+            StopAccelerate();
         }
     }
 }

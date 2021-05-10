@@ -61,9 +61,10 @@ public class Skill3DownView : MonoBehaviour
         skill3Explosion.Play();
         enemyScript.Skill3Discharge(player.transform.position);
         yield return new WaitForSeconds(skill3Time);
+        ballControllerScript.playerDefaultSpeed = defaultPower;
         this.transform.localScale = startScale;
         rb.mass = 2.2f;
-        ballControllerScript.playerDefaultSpeed = defaultPower;
+        
 
         skillController.SkillFinish();
     }

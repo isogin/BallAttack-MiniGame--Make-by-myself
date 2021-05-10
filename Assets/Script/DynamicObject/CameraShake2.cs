@@ -32,7 +32,7 @@ public class CameraShake2 : MonoBehaviour
 
     public void Shake(float Impact, float duration)
     {
-        Debug.Log("hit");
+
         iTween.ShakePosition(this.gameObject, iTween.Hash("x", Impact * impactIndex, "y", Impact * impactIndex, "time", duration));
     }
 

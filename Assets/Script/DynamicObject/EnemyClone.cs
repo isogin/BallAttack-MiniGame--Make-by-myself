@@ -10,11 +10,13 @@ public class EnemyClone : MonoBehaviour
     public float enemySpeed;
 
     public float lifeTime;
+
+    bool onGround;
     void Start()
     {
         player = GameObject.Find("Player");
         rb = GetComponent<Rigidbody>();
-        Invoke("TraceFinish", lifeTime * 2 / 3);
+        Invoke("TraceFinish", lifeTime * 2 / 4);
         Invoke("Destroy", lifeTime);
     }
 
@@ -22,7 +24,7 @@ public class EnemyClone : MonoBehaviour
     void Update()
     {
         Vector3 trace = (player.transform.position - this.gameObject.transform.position).normalized;
-        if(finishTrace)
+        if(finishTrace && onGround)
         {
             rb.AddForce(trace * enemySpeed);
         }
@@ -34,5 +36,15 @@ public class EnemyClone : MonoBehaviour
     private void Destroy()
     {
         Destroy(this.gameObject);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        onGround = false;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        onGround = true;
     }
 }

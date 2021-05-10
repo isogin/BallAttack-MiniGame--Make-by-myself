@@ -45,56 +45,57 @@ public class SpinSkill : MonoBehaviour
         up = new Vector3(0,upPower,movePower);
         down = new Vector3(0,upPower,-movePower);
 
-        routine = Coroutine();
-        StartCoroutine(routine);
 
         skillController = skillControllObject.GetComponent<SkillController>();
     }
 
     void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.D) && skillController.skillOnHalfPossible)
+        if (Input.GetKey(KeyCode.D) && skillController.skillOnHalfPossible)
         {
+            StartCoroutine("Coroutine");
             rb.velocity = Vector3.zero;
             rb.AddForce(right, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(0, 0, -zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
-            StartCoroutine("Coroutine");
+            
 
             skillController.SkillHalfUsed();
         }
 
-        if (Input.GetKeyDown(KeyCode.A) && skillController.skillOnHalfPossible)
+        if (Input.GetKey(KeyCode.A) && skillController.skillOnHalfPossible)
         {
+            StartCoroutine("Coroutine");
             rb.velocity = Vector3.zero;
             rb.AddForce(left, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(0, 0, zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
-            StartCoroutine("Coroutine");
+            
             skillController.SkillHalfUsed();
 
         }
 
-        if (Input.GetKeyDown(KeyCode.W) && skillController.skillOnHalfPossible)
+        if (Input.GetKey(KeyCode.W) && skillController.skillOnHalfPossible)
         {
-
+            StartCoroutine("Coroutine");
             rb.velocity = Vector3.zero;
             rb.AddForce(up, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(ySipnPower, 0, 0) * Mathf.PI, ForceMode.VelocityChange);
-            StartCoroutine("Coroutine");
+            
             skillController.SkillHalfUsed();
         }
 
 
 
-        if (Input.GetKeyDown(KeyCode.S) && skillController.skillOnHalfPossible)
-        {  
+        if (Input.GetKey(KeyCode.S) && skillController.skillOnHalfPossible)
+        {
+            StartCoroutine("Coroutine");
             rb.velocity = Vector3.zero;
             rb.AddForce(down, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(-ySipnPower, 0 , 0) * Mathf.PI, ForceMode.VelocityChange);
-            StartCoroutine("Coroutine");
+            
 
             skillController.SkillHalfUsed();
         }
@@ -105,7 +106,7 @@ public class SpinSkill : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         rb.mass = changeMass;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1f);
         rb.mass = defaultMass;
         skillController.SkillFinish();
     }
