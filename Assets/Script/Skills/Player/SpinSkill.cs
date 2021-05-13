@@ -28,7 +28,6 @@ public class SpinSkill : MonoBehaviour
     Vector3 up;
 
 
-    IEnumerator routine;
     // Start is called before the first frame update
     void Start()
     {

@@ -86,6 +86,6 @@ public class GameOverScript : SingletonMonoBehaviour<GameOverScript>
         player.transform.position = new Vector3(-3.5f, 5, 0);
         enemy.transform.position = new Vector3(3.5f, 5, 0);
 
-        enemyScript.percent = 100;
+        enemyScript.percent = 80;
     }
 }
