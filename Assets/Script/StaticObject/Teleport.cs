@@ -13,6 +13,7 @@ public class Teleport : MonoBehaviour
     {
         player = GameObject.Find("Player");
         teleportPos = teleport.transform.position;
+        rb = player.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame

@@ -20,6 +20,8 @@ public class ParkourSpin : MonoBehaviour
     Vector3 down;
     Vector3 up;
 
+    public float useNumber = 0;
+    public float limitNumber;
 
     IEnumerator routine;
     // Start is called before the first frame update
@@ -44,17 +46,18 @@ public class ParkourSpin : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D) && useNumber < limitNumber)
         {
 
             rb.velocity = Vector3.zero;
             rb.AddForce(left, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(0, 0, zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
+            useNumber += 1;
 
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A) && useNumber < limitNumber)
         {
 
             rb.velocity = Vector3.zero;
@@ -62,27 +65,34 @@ public class ParkourSpin : MonoBehaviour
             spinSkill.Play();
             rb.AddTorque(new Vector3(0, 0, -zSpinPower) * Mathf.PI, ForceMode.VelocityChange);
 
-
+            useNumber += 1;
         }
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W) && useNumber < limitNumber)
         {
             rb.velocity = Vector3.zero;
             rb.AddForce(down, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(-ySipnPower, 0, 0) * Mathf.PI, ForceMode.VelocityChange);
+            useNumber += 1;
 
         }
 
 
 
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.S) && useNumber < limitNumber)
         {
             rb.velocity = Vector3.zero;
             rb.AddForce(up, ForceMode.Impulse);
             spinSkill.Play();
             rb.AddTorque(new Vector3(ySipnPower, 0,0) * Mathf.PI, ForceMode.VelocityChange);
+            useNumber += 1;
 
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        useNumber = 0;
     }
 }

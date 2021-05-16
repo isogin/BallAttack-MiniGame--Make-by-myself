@@ -13,7 +13,7 @@ public class ChrnosSkill : MonoBehaviour
 	{
 		skillController = skillControllObject.GetComponent<SkillController>();
 	}
-		void Update()
+    void Update()
 	{
 		if(Input.GetKeyDown(KeyCode.Space) && skillController.skillOnPossible)
         {
