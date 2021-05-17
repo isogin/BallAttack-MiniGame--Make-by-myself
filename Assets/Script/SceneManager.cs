@@ -15,15 +15,13 @@ namespace BallAttack
         // Update is called once per frame
         void Update()
         {
-            if (StatusModelSinglton.Instance.playerWin == 2)
+            if (StatusModelSinglton.Instance.playerWin == 2 && StatusModelSinglton.Instance.sceneChange)
             {
-                //プレイヤーの勝利  点数をリセットする
-                
 
-                //シーンを切り替える
-                StatusModelSinglton.Instance.NextScene();
+                Invoke("NextScene", 3);
 
 
+                StatusModelSinglton.Instance.sceneChange = false;
             }
             if (StatusModelSinglton.Instance.enemyWin == 2)
             {
@@ -31,6 +29,12 @@ namespace BallAttack
                 
 
             }
+        }
+
+        void NextScene()
+        {
+            //シーンを切り替える
+            StatusModelSinglton.Instance.NextScene();
         }
     }
 }

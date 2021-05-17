@@ -20,7 +20,7 @@ public class PlayerClone : MonoBehaviour
 
         enemy = GameObject.Find("Enemy");
         rb = GetComponent<Rigidbody>();
-        Invoke("TraceFinish", lifeTime / 2);
+        Invoke("TraceFinish", lifeTime * 2/3);
         Invoke("Destroy", lifeTime);
     }
 
@@ -39,8 +39,9 @@ public class PlayerClone : MonoBehaviour
     }
     private void Destroy()
     {
+        skillController.SkillFinish();
         Destroy(this.gameObject);
-        skillController.SkillUsed();
+        
     }
 
     private void OnCollisionExit(Collision collision)

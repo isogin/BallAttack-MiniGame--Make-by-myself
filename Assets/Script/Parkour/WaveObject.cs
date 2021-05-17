@@ -10,7 +10,7 @@ public class WaveObject : MonoBehaviour
     bool oneUse = true;
     public float minSpeed;
     public float maxSpeed;
-    public float movetime;
+
     bool skillOn;
 
     float timeElapsed;

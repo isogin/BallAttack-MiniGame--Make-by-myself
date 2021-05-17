@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class NextStage : MonoBehaviour
 {
-    // Start is called before the first frame update
+    bool oneTime = true;
     void Start()
     {
         
@@ -18,9 +18,11 @@ public class NextStage : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "PlayerBall")
+        if(collision.gameObject.tag == "PlayerBall" && oneTime)
         {
             StatusModelSinglton.Instance.NextScene();
+            oneTime = false;
+            
         }
         
     }
